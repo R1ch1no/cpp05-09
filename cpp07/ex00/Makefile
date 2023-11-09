@@ -6,7 +6,7 @@
 #    By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/05 17:54:00 by rkurnava          #+#    #+#              #
-#    Updated: 2023/11/05 18:32:16 by rkurnava         ###   ########.fr        #
+#    Updated: 2023/11/09 19:36:13 by rkurnava         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ NAME = ex00
 CXX = c++
 CXXFLAGS = -Wall -Wextra -Werror -std=c++98 -pedantic
 
-INCLUDES = ./TemplateFunctions.hpp
+INCLUDES = ./whatever.hpp
 
 all: $(NAME)
 

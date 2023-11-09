@@ -1,19 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   TemplateFunctions.hpp                              :+:      :+:    :+:   */
+/*   whatever.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/05 17:56:56 by rkurnava          #+#    #+#             */
-/*   Updated: 2023/11/05 18:32:30 by rkurnava         ###   ########.fr       */
+/*   Updated: 2023/11/09 19:34:48 by rkurnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
 
-#ifndef TEMPLATEFUNCTIONS_HPP
-# define TEMPLATEFUNCTIONS_HPP
+#ifndef WHATEVER_HPP
+# define WHATEVER_HPP
+
+#include <string>
+#include <iostream>
 
 template <typename T>
 void swap(T &a, T &b)

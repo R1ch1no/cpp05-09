@@ -6,14 +6,34 @@
 /*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/05 18:55:45 by rkurnava          #+#    #+#             */
-/*   Updated: 2023/11/05 19:37:47 by rkurnava         ###   ########.fr       */
+/*   Updated: 2023/11/09 19:31:57 by rkurnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "iter.hpp"
-#include <iostream>
-#include <string>
-#include <cctype>
+
+class Awesome
+{
+public:
+    Awesome(void) : _n(42) { return; }
+    int get(void) const { return this->_n; }
+
+private:
+    int _n;
+};
+
+std::ostream &operator<<(std::ostream &o, Awesome const &rhs)
+{
+    o << rhs.get();
+    return o;
+}
+
+template <typename T>
+void print(T &x)
+{
+    std::cout << x << std::endl;
+    return;
+}
 
 void increment(int &n)
 {
@@ -27,7 +47,6 @@ void changebool(bool &b)
     else
         b = true;
 }
-
 void toupper(char &c)
 {
     c = std::toupper(c);
@@ -41,7 +60,7 @@ int main (void)
         std::cout << numbers[i] << " ";
     std::cout << std::endl;
     std::cout << std::endl;
-    ::iter(numbers, 10, &increment);
+    iter(numbers, 10, &increment);
     std::cout << "After iter: " << std::endl;
     for (int i = 0; i < 10; i++)
         std::cout << numbers[i] << " ";
@@ -55,7 +74,7 @@ int main (void)
         std::cout << std::boolalpha << bools[i] << " ";
     std::cout << std::endl;
     std::cout << std::endl;
-    ::iter(bools, 10, &changebool);
+    iter(bools, 10, &changebool);
     std::cout << "After iter: " << std::endl;
     for (int i = 0; i < 10; i++)
         std::cout << std::boolalpha << bools[i] << " ";
@@ -67,9 +86,14 @@ int main (void)
     char small_chars[30] = "abcdefghijklmnopqrstuvwxyz";
     std::cout << "Small chars before iter: " << small_chars << std::endl;
     std::cout << std::endl;
-    ::iter(small_chars, 27 , &toupper);
+    iter(small_chars, 27 , &toupper);
     std::cout << "Small chars after iter: " << small_chars << std::endl;
     std::cout << std::endl;
 
+    int tab[] = {0, 1, 2, 3, 4};
+    Awesome tab2[5];
+
+    iter(tab, 5, print<const int>);
+    iter(tab2, 5, print<Awesome>);
     return (0);
 }
