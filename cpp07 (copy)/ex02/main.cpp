@@ -16,6 +16,8 @@ int main(int, char **)
     }
     /*     for (int i = 0; i < MAX_VAL ; i++)
             std::cout << numbers[i] << std::endl; */
+/*     std::cout << "Numbers size : " << numbers.size() << std::endl;
+    std::cout << "Mirror size : " << numbers.size() << std::endl; */
     // SCOPE
     {
         Array<int> tmp = numbers;
