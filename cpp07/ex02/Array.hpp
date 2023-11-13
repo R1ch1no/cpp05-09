@@ -6,7 +6,7 @@
 /*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/05 19:50:45 by rkurnava          #+#    #+#             */
-/*   Updated: 2023/11/07 12:28:42 by rkurnava         ###   ########.fr       */
+/*   Updated: 2023/11/13 17:34:07 by rkurnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,25 +21,25 @@ class Array
 {
 private:
     T *array;
-    unsigned int size;
+    unsigned int len;
 
 public:
     // Constructors, destructor and operator= overload
     Array()
     {
         this->array = new T[0];
-        this->size = 0;
+        this->len = 0;
     }
     Array(unsigned int n)
     {
         this->array = new T[n];
-        this->size = n;
+        this->len = n;
     }
     Array(Array const &other)
     {
-        this->size = other.size;
-        this->array = new T[this->size];
-        for (unsigned int i = 0; i < this->size; i++)
+        this->len = other.len;
+        this->array = new T[this->len];
+        for (unsigned int i = 0; i < this->len; i++)
             this->array[i] = other.array[i];
     }
     Array &operator=(Array const &other)
@@ -49,10 +49,10 @@ public:
         if (this != &other)
         {
             delete this->array;
-            this->array = new T[other.size];
-            for (unsigned int i = 0; i < other.size; i++)
+            this->array = new T[other.len];
+            for (unsigned int i = 0; i < other.len; i++)
                 this->array[i] = other.array[i];
-            this->size = other.size;
+            this->len = other.len;
         }
         return (*this);
     }
@@ -71,9 +71,13 @@ public:
     };
     T &operator[](unsigned int n)
     {
-        if (n >= this->size || this->array == NULL)
+        if (n >= this->len || this->array == NULL)
             throw invalidIndex();
         return (this->array[n]);
+    }
+    unsigned int size(void) const
+    {
+        return (this->len);
     }
 };
 

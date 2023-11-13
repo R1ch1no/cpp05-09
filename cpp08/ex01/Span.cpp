@@ -6,20 +6,21 @@
 /*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 15:06:39 by rkurnava          #+#    #+#             */
-/*   Updated: 2023/11/10 19:51:01 by rkurnava         ###   ########.fr       */
+/*   Updated: 2023/11/13 12:53:15 by rkurnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Span.hpp"
+#include <climits>
 
-//Constructors, destructor, operator=, copy constructor
+// Constructors, destructor, operator=, copy constructor
 
 Span::Span(void)
 {
     throw invalidObjectInitialisationException();
 }
 
-Span::Span(unsigned int const n) : maxSize(n), currentSize(0){}
+Span::Span(unsigned int const n) : maxSize(n), currentSize(0) {}
 
 Span &Span::operator=(Span const &other)
 {
@@ -29,13 +30,13 @@ Span &Span::operator=(Span const &other)
     return (*this);
 }
 
-Span::Span(Span const &other){ *this = other;}
+Span::Span(Span const &other) { *this = other; }
 
-Span::~Span(void){}
+Span::~Span(void) {}
 
 ///////////////////////////////////////////////////////////////
 
-//Member functions
+// Member functions
 
 void Span::addNumber(int const n)
 {
@@ -59,18 +60,52 @@ void Span::addNumber(int const start, int const end)
 {
     if (this->currentSize + (end - start) > this->maxSize)
         throw maxReachedException();
+    for (long i = start; i <= end; i++)
+        addNumber(i);
 }
 
 int Span::shortestSpan(void)
 {
+    unsigned long res = ULONG_MAX;
+    unsigned long i = 0;
+    std::vector<int>::iterator tmp;
     if (this->currentSize <= 1)
         throw noSpanException();
-    return (0);
+    for (std::vector<int>::iterator it = this->ints.begin(); it != this->ints.end(); it++)
+    {
+
+        tmp = std::upper_bound(this->ints.begin(), it, *it);
+        if (tmp == it)
+            tmp = std::upper_bound(it, this->ints.end(), *it);
+        i = *tmp - *it;
+        if (res > i)
+            res = i;
+        std::cout << *it << " " << *tmp << " res: " << res << std::endl;
+    }
+    return (res);
 }
 
 int Span::longestSpan(void)
 {
+    unsigned long res = 0;
+    unsigned long i = 0;
+    std::vector<int>::iterator tmp;
     if (this->currentSize <= 1)
         throw noSpanException();
-    return (0);
+    for (std::vector<int>::iterator it = this->ints.begin(); it != this->ints.end(); it++)
+    {
+        tmp = std::upper_bound(this->ints.begin(), it, *it);
+        if (*tmp == *it)
+            tmp = std::upper_bound(it, this->ints.end(), *it);
+        if (*it < *tmp)
+            i = *tmp - *it;
+        else if (*it > *tmp)
+            i = *it - *tmp;
+        else if (*it == *tmp)
+            i = 0;
+        if (res < i)
+            res = i;
+        std::cout << *it << " " << *tmp << " res: " << res << std::endl;
+    }
+    return (res);
 }
