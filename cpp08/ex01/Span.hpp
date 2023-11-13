@@ -6,7 +6,7 @@
 /*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 14:21:56 by rkurnava          #+#    #+#             */
-/*   Updated: 2023/11/13 11:30:50 by rkurnava         ###   ########.fr       */
+/*   Updated: 2023/11/13 17:53:34 by rkurnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ class Span
         };
         void addNumber(int const n);
         void addNumber(int const start, int const end);
+        void addNumber(std::vector<int>::iterator start, std::vector<int>::iterator end);
         int shortestSpan(void);
         int longestSpan(void);
 };

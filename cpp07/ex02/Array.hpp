@@ -6,7 +6,7 @@
 /*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/05 19:50:45 by rkurnava          #+#    #+#             */
-/*   Updated: 2023/11/13 17:34:07 by rkurnava         ###   ########.fr       */
+/*   Updated: 2023/11/13 19:12:41 by rkurnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,6 @@ public:
     }
     Array &operator=(Array const &other)
     {
-        if (!other)
-            return (*this);
         if (this != &other)
         {
             delete this->array;
