@@ -50,6 +50,8 @@
         "stdexcept": "cpp",
         "streambuf": "cpp",
         "typeinfo": "cpp",
-        "complex": "cpp"
+        "complex": "cpp",
+        "stack": "cpp",
+        "list": "cpp"
     }
 }
