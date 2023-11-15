@@ -6,7 +6,7 @@
 /*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/05 19:50:45 by rkurnava          #+#    #+#             */
-/*   Updated: 2023/11/13 19:12:41 by rkurnava         ###   ########.fr       */
+/*   Updated: 2023/11/15 11:23:29 by rkurnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ public:
     }
     Array &operator=(Array const &other)
     {
+        std::cout << "Assignation operator called" << std::endl;
         if (this != &other)
         {
             delete this->array;

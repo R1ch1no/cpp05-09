@@ -14,7 +14,9 @@ int main(int, char **)
         numbers[i] = value;
         mirror[i] = value;
     }
-    Array<int> tmp(numbers);
+    /* Array<int> tmp;
+    tmp = numbers; */
+    /* Array<int> tmp(numbers); */
     /*     for (int i = 0; i < MAX_VAL ; i++)
             std::cout << numbers[i] << std::endl; */
     /*     for (int i = 0; i < MAX_VAL ; i++)
