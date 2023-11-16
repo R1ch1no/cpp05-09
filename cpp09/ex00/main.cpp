@@ -6,8 +6,13 @@
 /*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 19:18:23 by rkurnava          #+#    #+#             */
-/*   Updated: 2023/11/15 19:18:24 by rkurnava         ###   ########.fr       */
+/*   Updated: 2023/11/16 13:24:11 by rkurnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
- 
+#include "BitcoinExchange.hpp"
+
+int main(int argc, char **argv)
+{
+    
+}
