@@ -6,7 +6,7 @@
 /*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 16:54:18 by rkurnava          #+#    #+#             */
-/*   Updated: 2023/11/21 14:32:32 by rkurnava         ###   ########.fr       */
+/*   Updated: 2023/11/21 19:31:56 by rkurnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int main()
 {
-    std::vector<int> tmp(5);
+    std::deque<int> tmp(5);
     Span *tmp2 = NULL;
     Span *test = NULL;
     Span *sp = NULL;
@@ -33,7 +33,23 @@ int main()
     }
     try
     {
+        tmp2->addNumber(1, 200001);
+    }
+    catch (const std::exception &e)
+    {
+        std::cerr << e.what() << '\n';
+    }
+    try
+    {
         test = new Span(5);
+    }
+    catch (const std::exception &e)
+    {
+        std::cerr << e.what() << '\n';
+    }
+    try
+    {
+        test->addNumberIter(tmp.begin(), tmp.end());
     }
     catch (const std::exception &e)
     {
@@ -49,27 +65,11 @@ int main()
     }
     try
     {
-        test->addNumber(tmp.begin(), tmp.end());
-    }
-    catch (const std::exception &e)
-    {
-        std::cerr << e.what() << '\n';
-    }
-    try
-    {
-        tmp2->addNumber(1, 20000);
-    }
-    catch (const std::exception &e)
-    {
-        std::cerr << e.what() << '\n';
-    }
-    try
-    {
         sp->addNumber(6);
         sp->addNumber(3);
         sp->addNumber(17);
-        sp->addNumber(9);
-        sp->addNumber(11);
+        sp->addNumber(-11);
+        sp->addNumber(-9);
     }
     catch (const std::exception &e)
     {
@@ -77,12 +77,12 @@ int main()
     }
     try
     {
-        std::cout << "Sp shortest span   :" << sp->shortestSpan() << std::endl;
-        std::cout << "Sp longest span    :" << sp->longestSpan() << std::endl;
-        std::cout << "Test shortest span :" << test->shortestSpan() << std::endl;
-        std::cout << "Test longest span  :" << test->longestSpan() << std::endl;
-        std::cout << "Tmp2 shortest span :" << tmp2->shortestSpan() << std::endl;
-        std::cout << "Tmp2 longest span  :" << tmp2->longestSpan() << std::endl;
+        std::cout << "Sp shortest span   (should be 2)    : " << sp->shortestSpan() << std::endl;
+        std::cout << "Sp longest span    (should be 28)   : " << sp->longestSpan() << std::endl;
+        std::cout << "Test shortest span (should be 1)    : " << test->shortestSpan() << std::endl;
+        std::cout << "Test longest span  (should be 20)   : " << test->longestSpan() << std::endl;
+        std::cout << "Tmp2 shortest span (should be 1)    : " << tmp2->shortestSpan() << std::endl;
+        std::cout << "Tmp2 longest span  (should be 19999): " << tmp2->longestSpan() << std::endl;
     }
     catch(const std::exception& e)
     {

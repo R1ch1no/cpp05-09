@@ -6,7 +6,7 @@
 /*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 14:21:56 by rkurnava          #+#    #+#             */
-/*   Updated: 2023/11/13 17:53:34 by rkurnava         ###   ########.fr       */
+/*   Updated: 2023/11/21 19:32:50 by rkurnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 #include <algorithm>
 #include <exception>
 #include <string>
+#include <deque>
 
 class Span
 {
@@ -54,9 +55,18 @@ class Span
         };
         void addNumber(int const n);
         void addNumber(int const start, int const end);
-        void addNumber(std::vector<int>::iterator start, std::vector<int>::iterator end);
-        int shortestSpan(void);
-        int longestSpan(void);
+        template <typename Iter>
+        void addNumberIter(Iter const start, Iter const end)
+        {
+            std::vector<int> tmp;
+            tmp.insert(tmp.begin(), start, end);
+            if (this->currentSize + tmp.size() > this->maxSize)
+                throw maxReachedException();
+            this->ints.insert(this->ints.end(), start, end);
+            this->currentSize += tmp.size();
+        };
+        unsigned long shortestSpan(void);
+        unsigned long longestSpan(void);
 };
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 16:23:15 by rkurnava          #+#    #+#             */
-/*   Updated: 2023/11/15 18:26:06 by rkurnava         ###   ########.fr       */
+/*   Updated: 2023/11/21 19:18:20 by rkurnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ class MutantStack : public std::stack<T>
         ~MutantStack(){;};
         iterator begin() { return this->c.begin(); };
         iterator end() { return this->c.end(); };
+        const_iterator begin() const { return this->c.begin(); };
+        const_iterator end() const { return this->c.end();};
 };
 
 #endif
