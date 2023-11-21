@@ -6,7 +6,7 @@
 /*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 16:23:25 by rkurnava          #+#    #+#             */
-/*   Updated: 2023/11/15 18:55:39 by rkurnava         ###   ########.fr       */
+/*   Updated: 2023/11/21 14:36:28 by rkurnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int main()
         std::cout << *mitt << std::endl;
         ++mitt;
     }
-    std::cout << "Mastack copy assigned "<< std::endl;
+    std::cout << "Mstack copy assigned "<< std::endl;
     MutantStack<int> test2;
     test2 = mstack;
     MutantStack<int>::iterator mitt2 = test2.begin();
