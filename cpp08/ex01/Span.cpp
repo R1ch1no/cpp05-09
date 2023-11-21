@@ -6,7 +6,7 @@
 /*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 15:06:39 by rkurnava          #+#    #+#             */
-/*   Updated: 2023/11/21 14:21:29 by rkurnava         ###   ########.fr       */
+/*   Updated: 2023/11/21 15:35:04 by rkurnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,8 +99,8 @@ int Span::shortestSpan(void)
 
 int Span::longestSpan(void)
 {
-    unsigned long max = *std::max_element(this->ints.begin(), this->ints.end());
-    unsigned long min = *std::min_element(this->ints.begin(), this->ints.end());
+    long max = *std::max_element(this->ints.begin(), this->ints.end());
+    long min = *std::min_element(this->ints.begin(), this->ints.end());
     unsigned long res = max - min;
     return (res);
 }
