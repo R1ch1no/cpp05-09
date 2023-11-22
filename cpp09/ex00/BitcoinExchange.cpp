@@ -6,7 +6,7 @@
 /*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 19:18:13 by rkurnava          #+#    #+#             */
-/*   Updated: 2023/11/22 16:14:30 by rkurnava         ###   ########.fr       */
+/*   Updated: 2023/11/22 19:22:14 by rkurnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,6 +132,11 @@ int BitcoinExchange::checkLine(std::string line)
 
 int BitcoinExchange::checkDate(int year, int month, int day, float rate, std::string line)
 {
+    if (year <= 2009 && month <= 1 && day < 2) 
+    {
+        std::cout << "Incorrect date : " << line << "\n\t exchange impossible"<< std::endl;
+        return (1);
+    }
     if (year < 2009)
     {
         std::cout << "Incorrect year : " << line << std::endl;
@@ -147,12 +152,12 @@ int BitcoinExchange::checkDate(int year, int month, int day, float rate, std::st
         std::cout << "Incorrect day : " << line << std::endl;
         return (1);
     }
-    if (year % 4 == 0 && month == 2 && day > 29)
+    if (((year % 4 == 0 && year % 100 != 0) || year % 400 == 0) && month == 2 && day > 29)
     {
         std::cout << "Incorrect day : " << line << std::endl;
         return (1);
     }
-    if (year % 4 == 1 && month == 2 && day > 28)
+    if (!((year % 4 == 0 && year % 100 != 0) || year % 400 == 0) && month == 2 && day > 28)
     {
         std::cout << "Incorrect day : " << line << std::endl;
         return (1);
