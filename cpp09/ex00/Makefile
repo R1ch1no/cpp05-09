@@ -6,7 +6,7 @@
 #    By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/15 19:18:25 by rkurnava          #+#    #+#              #
-#    Updated: 2023/11/16 09:44:01 by rkurnava         ###   ########.fr        #
+#    Updated: 2023/11/22 13:12:06 by rkurnava         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,15 +16,17 @@ CXX = c++
 
 CXXFLAGS = -Wall -Wextra -Werror -std=c++98 -pedantic
 
+
 SRCS = main.cpp BitcoinExchange.cpp
 
 INCLUDES = BitcoinExchange.hpp
+
+all: $(NAME)
 
 OBJ = $(SRCS:.cpp=.cpp.o)
 
 $(OBJ): $(INCLUDES)
 
-all: $(NAME)
 
 $(NAME): $(SRCS) $(INCLUDES)
 	$(CXX) $(CXXFLAGS) $(SRCS) -o $(NAME)
