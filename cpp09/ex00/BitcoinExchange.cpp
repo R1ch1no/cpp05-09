@@ -6,7 +6,7 @@
 /*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 19:18:13 by rkurnava          #+#    #+#             */
-/*   Updated: 2023/11/22 19:22:14 by rkurnava         ###   ########.fr       */
+/*   Updated: 2023/11/23 16:11:31 by rkurnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,8 @@ BitcoinExchange::BitcoinExchange()
     std::string line;
     std::string date;
     float rate;
-    std::getline(dataBank, line);
+    if (!std::getline(dataBank, line))
+        throw dataBankMissingException();
     while (std::getline(dataBank, line))
     {
         date = std::string(line.begin(), line.begin() + 10);
@@ -48,10 +49,8 @@ BitcoinExchange::BitcoinExchange()
         value >> rate;
         this->data[date] = rate;
     }
-    /*     for (std::map<std::string, float>::const_iterator it = this->data.begin(); it != this->data.end(); ++it)
-        {
-            std::cout << "Date: " << it->first << " , Rate: " << std::fixed << std::setprecision(2) << it->second << std::endl;
-        } */
+    if (this->data.empty())
+        throw dataBankMissingException();
 }
 
 ////////////////////////////////////////////////////////////////////////////
