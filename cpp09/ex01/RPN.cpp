@@ -6,7 +6,7 @@
 /*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 19:18:34 by rkurnava          #+#    #+#             */
-/*   Updated: 2023/11/24 18:50:53 by rkurnava         ###   ########.fr       */
+/*   Updated: 2023/11/27 19:52:55 by rkurnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,16 +32,17 @@ RPN::~RPN(void)
 {
 }
 
-RPN::RPN(std::string const input)
+RPN::RPN(std::string &input)
 {
     if (checkInput(input))
         return;
+    calculate(input);
 }
 ///////////////////////////////////////////////////////////////
 
 //member functions
 
-int RPN::checkInput(std::string const input)
+int RPN::checkInput(std::string &input)
 {
     size_t nums = 0;
     size_t ops = 0;
@@ -59,8 +60,7 @@ int RPN::checkInput(std::string const input)
         std::cerr << "Error : Invalid input" << std::endl;
         return (1);
     }
-    //check if input contains only one char and if it is a digit, if yes print it and return
-    if (input.length() == 1 && isdigit(input[0]))
+    else if (input.length() == 1 && isdigit(input[0]))
     {
         std::cout << input << std::endl;
         return (1);
@@ -79,5 +79,34 @@ int RPN::checkInput(std::string const input)
         }
         if (input[i] == '-' || input[i] == '+' || input[i] == '*' || input[i] == '/')
             ops++;
-    }       
+    }
+    if (ops + 1 != nums)
+    {
+        std::cerr << "Error : Invalid input" << std::endl;
+        return (1);
+    }
+    //remove all the empty spaces from input
+    int in = 0;
+    while (input[in])
+    {
+        if (input[in] == ' ')
+        {
+            input.erase(in, 1);
+            continue;
+        }
+        in++;
+    }
+}
+
+void RPN::calculate(std::string &input)
+{
+    std::stack<int> operands;
+    for (size_t i = 0; i < input.length(); i++)
+    {
+        if (std::isdigit(input[i]))
+        {
+            operands.push(input[i] - '0');
+            continue;
+        }
+    }
 }

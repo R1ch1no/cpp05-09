@@ -6,7 +6,7 @@
 /*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 19:18:36 by rkurnava          #+#    #+#             */
-/*   Updated: 2023/11/24 18:27:10 by rkurnava         ###   ########.fr       */
+/*   Updated: 2023/11/27 19:36:35 by rkurnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,9 @@ class RPN
     private:
         std::stack<int> operands;
     public:
-        int checkInput(std::string const str);
-        RPN(std::string const str);
+        void calculate(std::string &input);
+        int checkInput(std::string &str);
+        RPN(std::string &str);
         RPN(RPN const &other);
         RPN &operator=(RPN const &other);
         ~RPN(void);
