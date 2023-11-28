@@ -6,7 +6,7 @@
 /*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 19:18:36 by rkurnava          #+#    #+#             */
-/*   Updated: 2023/11/27 19:36:35 by rkurnava         ###   ########.fr       */
+/*   Updated: 2023/11/28 16:21:12 by rkurnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,17 @@
 
 #include <iostream>
 #include <string>
-#include <exception>
 #include <stack>
+#include <algorithm>
+
+#define INT_MAX 2147483647
+#define INT_MIN -2147483648
 
 class RPN
 {
     private:
-        std::stack<int> operands;
+        std::stack<int> numbers;
+        long tmp;
     public:
         void calculate(std::string &input);
         int checkInput(std::string &str);
@@ -33,4 +37,3 @@ class RPN
 
 
 #endif
- 

@@ -6,7 +6,7 @@
 /*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 19:18:29 by rkurnava          #+#    #+#             */
-/*   Updated: 2023/11/27 19:35:39 by rkurnava         ###   ########.fr       */
+/*   Updated: 2023/11/28 15:07:24 by rkurnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
         std::cerr << "Error : Invalid number of arguments" << std::endl;
         return (0);
     }
-    RPN rpn(std::string(argv[1]));
+    std::string input = argv[1];
+    RPN calculation(input);
     return (0);
  }
