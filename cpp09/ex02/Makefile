@@ -6,7 +6,7 @@
 #    By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/15 19:18:41 by rkurnava          #+#    #+#              #
-#    Updated: 2023/12/01 15:16:16 by rkurnava         ###   ########.fr        #
+#    Updated: 2023/12/03 17:31:48 by rkurnava         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME = PmergeMe
 
 CXX = c++
 
-CXXFLAGS = -Wall -Wextra -Werror -std=c++98 -pedantic
+CXXFLAGS = -Wall -Wextra -Werror -std=c++98 -pedantic -g
 
 SRCS = main.cpp PmergeMe.cpp
 

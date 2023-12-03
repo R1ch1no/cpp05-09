@@ -6,7 +6,7 @@
 /*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 19:18:38 by rkurnava          #+#    #+#             */
-/*   Updated: 2023/12/03 16:06:32 by rkurnava         ###   ########.fr       */
+/*   Updated: 2023/12/03 17:47:31 by rkurnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,8 @@ int main(int argc, char **argv)
         delete[] input;
         return (1);
     }
+    vectorOperations(v, input, argc - 1);
+    dequeOperations(d, input, argc - 1);
     delete[] input;
     return (0);
 }
