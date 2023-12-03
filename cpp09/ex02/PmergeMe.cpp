@@ -6,7 +6,7 @@
 /*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 19:18:43 by rkurnava          #+#    #+#             */
-/*   Updated: 2023/12/03 19:28:04 by rkurnava         ###   ########.fr       */
+/*   Updated: 2023/12/03 20:09:18 by rkurnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -228,10 +228,7 @@ void mergeSortVector(std::vector<std::vector<int> > &v, size_t size)
     for (size_t i = 0; i + 1 < size; i++)
     {
         if (v[i][0] > v[i + 1][0])
-        {
             std::swap(v[i], v[i + 1]);
-            mergeSortVector(v, size);
-        }
     }
     mergeSortVector(v, size);
 }
@@ -248,12 +245,68 @@ void mergeSortDeque(std::deque<std::deque<int> > &d, size_t size)
     for (size_t i = 0; i + 1 < size; i++)
     {
         if (d[i][0] > d[i + 1][0])
-        {
             std::swap(d[i], d[i + 1]);
-            mergeSortDeque(d, size);
-        }
     }
     mergeSortDeque(d, size);
+}
+
+//////////////////////////////////////////////////////////////////
+
+/// Binary insertion sort functions
+void binaryInsertionSortV(std::vector<std::vector<int> > &v, size_t size, size_t i, size_t mid)
+{
+    if (i == 1)
+        return;
+    if (i == 0)
+    {
+        std::vector<int> tmp;
+        tmp.push_back(v[i][0]);
+        v.insert(v.begin(), tmp);
+        v.erase(v.begin() + i + 1);
+        i = size;
+        binaryInsertionSortV(v, size, i, mid);
+    }
+    if (v[mid][0] < v[i][1] && v[mid - 1][0] > v[i][1])
+    {
+        std::vector<int> tmp;
+        tmp.push_back(v[i][0]);
+        v.insert(v.begin() + mid, tmp);
+        v.erase(v.begin() + i + 1);
+        i --;
+        binaryInsertionSortV(v, size, i, mid);
+    }
+    if (v[mid][0] > v[i][1])
+        binaryInsertionSortV(v, size, i, mid / 2);
+    if (v[mid][0] < v[i][1])
+        binaryInsertionSortV(v, size, i, mid + mid / 2);
+}
+
+void binaryInsertionSortD(std::deque<std::deque<int> > &d, size_t size, size_t i, size_t mid)
+{
+    if (i == 1)
+        return;
+    if (i == 0)
+    {
+        std::deque<int> tmp;
+        tmp.push_back(d[i][0]);
+        d.insert(d.begin(), tmp);
+        d.erase(d.begin() + i + 1);
+        i = size;
+        binaryInsertionSortD(d, size, i, mid);
+    }
+    if (d[mid][0] < d[i][1] && d[mid - 1][0] > d[i][1])
+    {
+        std::deque<int> tmp;
+        tmp.push_back(d[i][0]);
+        d.insert(d.begin() + mid, tmp);
+        d.erase(d.begin() + i + 1);
+        i --;
+        binaryInsertionSortD(d, size, i, mid);
+    }
+    if (d[mid][0] > d[i][1])
+        binaryInsertionSortD(d, size, i, mid / 2);
+    if (d[mid][0] < d[i][1])
+        binaryInsertionSortD(d, size, i, mid + mid / 2);
 }
 
 //////////////////////////////////////////////////////////////////
@@ -267,7 +320,8 @@ void vectorOperations(std::vector<std::vector<int> > &v, std::string *input, siz
     {
         sortPairsVector(v, v.size());
         mergeSortVector(v, v.size());
-        // binaryInsertionSortV(v);
+        if (!isSortedVector(v))
+            binaryInsertionSortV(v, v.size(), 0, v.size() / 2);
     }
     printVectorAfter(v);
 }
@@ -280,7 +334,8 @@ void dequeOperations(std::deque<std::deque<int> > &d, std::string *input, size_t
     {
         sortPairsDeque(d, d.size());
         mergeSortDeque(d, d.size());
-        // binaryInsertionSortD(d);
+        if (!isSortedDeque(d))
+            binaryInsertionSortD(d, d.size(), 0, d.size() / 2);
     }
     printDequeAfter(d);
 }
