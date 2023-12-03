@@ -6,7 +6,7 @@
 /*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 19:18:38 by rkurnava          #+#    #+#             */
-/*   Updated: 2023/12/03 17:47:31 by rkurnava         ###   ########.fr       */
+/*   Updated: 2023/12/03 17:56:51 by rkurnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,6 @@ int inputCheck(std::string str[], size_t size)
 
 int main(int argc, char **argv)
 {
-    std::vector<std::vector<int> > v;
-    std::deque<std::deque<int> > d;
     if (argc <= 2)
     {
         std::cerr << "Invalid amount of arguments" << std::endl;
@@ -52,6 +50,8 @@ int main(int argc, char **argv)
         delete[] input;
         return (1);
     }
+    std::vector<std::vector<int> > v;
+    std::deque<std::deque<int> > d;
     vectorOperations(v, input, argc - 1);
     dequeOperations(d, input, argc - 1);
     delete[] input;
