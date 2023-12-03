@@ -6,7 +6,7 @@
 /*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 19:18:43 by rkurnava          #+#    #+#             */
-/*   Updated: 2023/12/03 18:24:25 by rkurnava         ###   ########.fr       */
+/*   Updated: 2023/12/03 19:28:04 by rkurnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,34 @@ void fillDeque(std::deque<std::deque<int> > &d, std::string *input, size_t size)
 
 //////////////////////////////////////////////////////////////////
 
-/// isSorted functions
+/// Chain sorted check functions
+
+int isVectorChainSorted(std::vector<std::vector<int> > v, size_t size)
+{
+    if (size % 2)
+        size--;
+    for (size_t i = 0; i + 1 < size; i++)
+    {
+        if (v[i][0] > v[i + 1][0])
+            return (0);
+    }
+    return (1);
+}
+
+int isDequeChainSorted(std::deque<std::deque<int> > d, size_t size)
+{
+    if (size % 2)
+        size--;
+    for (size_t i = 0; i + 1 < size; i++)
+    {
+        if (d[i][0] > d[i + 1][0])
+            return (0);
+    }
+    return (1);
+}
+//////////////////////////////////////////////////////////////////
+
+/// Is whole vector/deque sorted check functions
 
 int isSortedVector(std::vector<std::vector<int> > v)
 {
@@ -155,34 +182,78 @@ int isSortedDeque(std::deque<std::deque<int> > d)
 
 //////////////////////////////////////////////////////////////////
 
-/// Merge sort functions
+/// Pairs sort functions
 
-void mergeSortVector(std::vector<std::vector<int> > &v, size_t size)
+void sortPairsVector(std::vector<std::vector<int> > &v, size_t size)
 {
     if (size == 0)
         return;
     if (v[size - 1].size() == 1)
-        (mergeSortVector(v, --size));
+        (sortPairsVector(v, --size));
     if (v[size - 1].size() == 2)
     {
-        if (v[size - 1][0] < v[size - 1][1])
+        if (v[size - 1][0] > v[size - 1][1])
             std::swap(v[size - 1][0], v[size - 1][1]);
-        (mergeSortVector(v, --size));
+        (sortPairsVector(v, --size));
     }
 }
 
-void mergeSortDeque(std::deque<std::deque<int> > &d, size_t size)
+void sortPairsDeque(std::deque<std::deque<int> > &d, size_t size)
 {
     if (size == 0)
         return;
     if (d[size - 1].size() == 1)
-        (mergeSortDeque(d, --size));
+        (sortPairsDeque(d, --size));
     if (d[size - 1].size() == 2)
     {
-        if (d[size - 1][0] < d[size - 1][1])
+        if (d[size - 1][0] > d[size - 1][1])
             std::swap(d[size - 1][0], d[size - 1][1]);
-        (mergeSortDeque(d, --size));
+        (sortPairsDeque(d, --size));
     }
+}
+
+//////////////////////////////////////////////////////////////////
+
+/// Merge sort functions
+
+void mergeSortVector(std::vector<std::vector<int> > &v, size_t size)
+{
+    if (size % 2)
+    {
+        size--;
+        mergeSortVector(v, size);
+    }
+    if (isVectorChainSorted(v, v.size()))
+        return;
+    for (size_t i = 0; i + 1 < size; i++)
+    {
+        if (v[i][0] > v[i + 1][0])
+        {
+            std::swap(v[i], v[i + 1]);
+            mergeSortVector(v, size);
+        }
+    }
+    mergeSortVector(v, size);
+}
+
+void mergeSortDeque(std::deque<std::deque<int> > &d, size_t size)
+{
+    if (size % 2)
+    {
+        size--;
+        mergeSortDeque(d, size);
+    }
+    if (isDequeChainSorted(d, d.size()))
+        return;
+    for (size_t i = 0; i + 1 < size; i++)
+    {
+        if (d[i][0] > d[i + 1][0])
+        {
+            std::swap(d[i], d[i + 1]);
+            mergeSortDeque(d, size);
+        }
+    }
+    mergeSortDeque(d, size);
 }
 
 //////////////////////////////////////////////////////////////////
@@ -194,6 +265,7 @@ void vectorOperations(std::vector<std::vector<int> > &v, std::string *input, siz
     printVectorBefore(v);
     if (!isSortedVector(v))
     {
+        sortPairsVector(v, v.size());
         mergeSortVector(v, v.size());
         // binaryInsertionSortV(v);
     }
@@ -206,6 +278,7 @@ void dequeOperations(std::deque<std::deque<int> > &d, std::string *input, size_t
     printDequeBefore(d);
     if (!isSortedDeque(d))
     {
+        sortPairsDeque(d, d.size());
         mergeSortDeque(d, d.size());
         // binaryInsertionSortD(d);
     }
