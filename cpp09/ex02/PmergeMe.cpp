@@ -6,22 +6,19 @@
 /*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 19:18:43 by rkurnava          #+#    #+#             */
-/*   Updated: 2023/12/03 20:09:18 by rkurnava         ###   ########.fr       */
+/*   Updated: 2023/12/05 18:44:33 by rkurnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "PmergeMe.hpp"
-
+#include <unistd.h>
 /// Print functions
 
 void printVectorAfter(std::vector<std::vector<int> > v)
 {
     std::cout << "Vector after sorting  : ";
     for (size_t i = 0; i < v.size(); i++)
-    {
-        for (size_t j = 0; j < v[i].size(); j++)
-            std::cout << v[i][j] << " ";
-    }
+        std::cout << v[i][0] << " ";
     std::cout << "\n"
               << std::endl;
 }
@@ -30,10 +27,7 @@ void printDequeAfter(std::deque<std::deque<int> > d)
 {
     std::cout << "Deque after sorting   : ";
     for (size_t i = 0; i < d.size(); i++)
-    {
-        for (size_t j = 0; j < d[i].size(); j++)
-            std::cout << d[i][j] << " ";
-    }
+        std::cout << d[i][0] << " ";
     std::cout << "\n"
               << std::endl;
 }
@@ -42,10 +36,7 @@ void printVectorBefore(std::vector<std::vector<int> > v)
 {
     std::cout << "Vector before sorting : ";
     for (size_t i = 0; i < v.size(); i++)
-    {
-        for (size_t j = 0; j < v[i].size(); j++)
-            std::cout << v[i][j] << " ";
-    }
+        std::cout << v[i][0] << " ";
     std::cout << "\n"
               << std::endl;
 }
@@ -54,10 +45,7 @@ void printDequeBefore(std::deque<std::deque<int> > d)
 {
     std::cout << "Deque before sorting  : ";
     for (size_t i = 0; i < d.size(); i++)
-    {
-        for (size_t j = 0; j < d[i].size(); j++)
-            std::cout << d[i][j] << " ";
-    }
+        std::cout << d[i][0] << " ";
     std::cout << "\n"
               << std::endl;
 }
@@ -137,7 +125,7 @@ int isDequeChainSorted(std::deque<std::deque<int> > d, size_t size)
 {
     if (size % 2)
         size--;
-    for (size_t i = 0; i + 1 < size; i++)
+    for (size_t i = 0; i + 1 <= size; i++)
     {
         if (d[i][0] > d[i + 1][0])
             return (0);
@@ -190,12 +178,13 @@ void sortPairsVector(std::vector<std::vector<int> > &v, size_t size)
         return;
     if (v[size - 1].size() == 1)
         (sortPairsVector(v, --size));
-    if (v[size - 1].size() == 2)
+    if (v[size - 1][0] < v[size - 1][1])
     {
-        if (v[size - 1][0] > v[size - 1][1])
-            std::swap(v[size - 1][0], v[size - 1][1]);
-        (sortPairsVector(v, --size));
+        int tmp = v[size - 1][0];
+        v[size - 1][0] = v[size - 1][1];
+        v[size - 1][1] = tmp;
     }
+    sortPairsVector(v, --size);
 }
 
 void sortPairsDeque(std::deque<std::deque<int> > &d, size_t size)
@@ -206,7 +195,7 @@ void sortPairsDeque(std::deque<std::deque<int> > &d, size_t size)
         (sortPairsDeque(d, --size));
     if (d[size - 1].size() == 2)
     {
-        if (d[size - 1][0] > d[size - 1][1])
+        if (d[size - 1][0] < d[size - 1][1])
             std::swap(d[size - 1][0], d[size - 1][1]);
         (sortPairsDeque(d, --size));
     }
@@ -228,9 +217,11 @@ void mergeSortVector(std::vector<std::vector<int> > &v, size_t size)
     for (size_t i = 0; i + 1 < size; i++)
     {
         if (v[i][0] > v[i + 1][0])
+        {
             std::swap(v[i], v[i + 1]);
+            mergeSortVector(v, size);
+        }
     }
-    mergeSortVector(v, size);
 }
 
 void mergeSortDeque(std::deque<std::deque<int> > &d, size_t size)
@@ -242,7 +233,7 @@ void mergeSortDeque(std::deque<std::deque<int> > &d, size_t size)
     }
     if (isDequeChainSorted(d, d.size()))
         return;
-    for (size_t i = 0; i + 1 < size; i++)
+    for (size_t i = 0; i + 1 <= size; i++)
     {
         if (d[i][0] > d[i + 1][0])
             std::swap(d[i], d[i + 1]);
@@ -252,61 +243,28 @@ void mergeSortDeque(std::deque<std::deque<int> > &d, size_t size)
 
 //////////////////////////////////////////////////////////////////
 
-/// Binary insertion sort functions
-void binaryInsertionSortV(std::vector<std::vector<int> > &v, size_t size, size_t i, size_t mid)
+/// Binary Tree functions
+void binaryTreeV(std::vector<std::vector<int> > &v)
 {
-    if (i == 1)
+    if (v.size() == 1)
         return;
-    if (i == 0)
+    std::vector<std::vector<int> > tmp;
+    for (size_t j = 0; j + 1 < v.size(); j += 2)
     {
-        std::vector<int> tmp;
-        tmp.push_back(v[i][0]);
-        v.insert(v.begin(), tmp);
-        v.erase(v.begin() + i + 1);
-        i = size;
-        binaryInsertionSortV(v, size, i, mid);
+        std::vector<int> tmp2;
+        if (v[j][0] > v[j + 1][0])
+        {
+            tmp2.push_back(v[j][0]);
+            tmp2.push_back(v[j + 1][0]);
+        }
+        else
+        {
+            tmp2.push_back(v[j + 1][0]);
+            tmp2.push_back(v[j][0]);
+        }
+        tmp.push_back(tmp2);
     }
-    if (v[mid][0] < v[i][1] && v[mid - 1][0] > v[i][1])
-    {
-        std::vector<int> tmp;
-        tmp.push_back(v[i][0]);
-        v.insert(v.begin() + mid, tmp);
-        v.erase(v.begin() + i + 1);
-        i --;
-        binaryInsertionSortV(v, size, i, mid);
-    }
-    if (v[mid][0] > v[i][1])
-        binaryInsertionSortV(v, size, i, mid / 2);
-    if (v[mid][0] < v[i][1])
-        binaryInsertionSortV(v, size, i, mid + mid / 2);
-}
-
-void binaryInsertionSortD(std::deque<std::deque<int> > &d, size_t size, size_t i, size_t mid)
-{
-    if (i == 1)
-        return;
-    if (i == 0)
-    {
-        std::deque<int> tmp;
-        tmp.push_back(d[i][0]);
-        d.insert(d.begin(), tmp);
-        d.erase(d.begin() + i + 1);
-        i = size;
-        binaryInsertionSortD(d, size, i, mid);
-    }
-    if (d[mid][0] < d[i][1] && d[mid - 1][0] > d[i][1])
-    {
-        std::deque<int> tmp;
-        tmp.push_back(d[i][0]);
-        d.insert(d.begin() + mid, tmp);
-        d.erase(d.begin() + i + 1);
-        i --;
-        binaryInsertionSortD(d, size, i, mid);
-    }
-    if (d[mid][0] > d[i][1])
-        binaryInsertionSortD(d, size, i, mid / 2);
-    if (d[mid][0] < d[i][1])
-        binaryInsertionSortD(d, size, i, mid + mid / 2);
+    binaryTreeV(tmp);
 }
 
 //////////////////////////////////////////////////////////////////
@@ -319,9 +277,17 @@ void vectorOperations(std::vector<std::vector<int> > &v, std::string *input, siz
     if (!isSortedVector(v))
     {
         sortPairsVector(v, v.size());
+        std::cout << "Sorted pairs : " << std::endl;
+        printVectorBefore(v);
         mergeSortVector(v, v.size());
+        std::cout << "Main chain sorted : " << std::endl;
+        printVectorBefore(v);
+        std::cout << std::endl;
         if (!isSortedVector(v))
-            binaryInsertionSortV(v, v.size(), 0, v.size() / 2);
+        {
+            if (v.size() % 2 == 0)
+                binaryTreeV(v);
+        }
     }
     printVectorAfter(v);
 }
@@ -334,8 +300,8 @@ void dequeOperations(std::deque<std::deque<int> > &d, std::string *input, size_t
     {
         sortPairsDeque(d, d.size());
         mergeSortDeque(d, d.size());
-        if (!isSortedDeque(d))
-            binaryInsertionSortD(d, d.size(), 0, d.size() / 2);
+        /*         if (!isSortedDeque(d))
+                    binaryInsertionSortD(d, d.size(), 0, d.size() / 2); */
     }
     printDequeAfter(d);
 }
