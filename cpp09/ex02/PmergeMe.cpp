@@ -6,7 +6,7 @@
 /*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 19:18:43 by rkurnava          #+#    #+#             */
-/*   Updated: 2023/12/15 17:58:39 by rkurnava         ###   ########.fr       */
+/*   Updated: 2023/12/15 19:51:05 by rkurnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -251,12 +251,7 @@ int binarySearchV(std::vector<std::vector<int> > v, int high, int key)
     while (l <= h)
     {
         int mid = l + (h - l) / 2;
-        if (mid == 0)
-        {
-            if (v[mid][0] < key)
-                return (0);
-        }
-        else if (v[mid][0] > key && v[mid - 1][0] < key)
+        if (mid > 0 && v[mid][0] > key && v[mid - 1][0] < key)
             return mid;
         if (v[mid][0] < key)
             l = mid + 1;
@@ -273,12 +268,7 @@ int binarySearchD(std::deque<std::deque<int> > d, int high, int key)
     while (l <= h)
     {
         int mid = l + (h - l) / 2;
-        if (mid == 0)
-        {
-            if (d[mid][0] < key)
-                return (0);
-        }
-        else if (d[mid][0] > key && d[mid - 1][0] < key)
+        if (mid > 0 && d[mid][0] > key && d[mid - 1][0] < key)
             return mid;
         if (d[mid][0] < key)
             l = mid + 1;
@@ -301,40 +291,34 @@ void binaryTreeV(std::vector<std::vector<int> > &v, int pos, int pedantSize, int
     v.insert(v.begin(), tmp);
     v[1][1] = -1;
     int JSNpos = 1;
-    pos = jacobStahlNumbers[JSNpos];
-    if (pos >= (int)v.size() - 1)
-        pos = v.size() - 1;
     while ((int)v.size() != pedantSize * 2)
     {
         int i = 0;
         int j = 0;
-        while (i < (int)v.size() && j <= pos)
+        while (i < (int)v.size() && j != pos)
         {
             if (v[i].size() == 2 && v[i][1] != -1)
                 j++;
+            if (j == pos)
+                break;
             i++;
         }
-        while (j > jacobStahlNumbers[JSNpos - 1] && i > 0)
+        while (j > jacobStahlNumbers[JSNpos - 1] && i > 1)
         {
             if (v[i].size() == 2 && v[i][1] != -1)
             {
                 int index = binarySearchV(v, i, v[i][1]);
                 std::vector<int> tmp;
                 tmp.push_back(v[i][1]);
+                tmp.push_back(-1);
+                v[i][1] = -1;
                 v.insert(v.begin() + index, tmp);
-                if (index < i)
-                    v[i + 1][1] = -1;
-                else
-                    v[i][1] = -1;
                 j--;
             }
-            while (i > - 1 && v[i].size() != 2)
-                i--;
+            i--;
         }
         JSNpos++;
-        if (pos == pedantSize - 1)
-            break;
-        if (jacobStahlNumbers[JSNpos] > pedantSize)
+        if (jacobStahlNumbers[JSNpos] > pedantSize - 1)
             pos = pedantSize - 1;
         else
             pos = jacobStahlNumbers[JSNpos];
@@ -355,40 +339,34 @@ void binaryTreeD(std::deque<std::deque<int> > &d, int pos, int pedantSize, int o
     d.insert(d.begin(), tmp);
     d[1][1] = -1;
     int JSNpos = 1;
-    pos = jacobStahlNumbers[JSNpos];
-    if (pos >= (int)d.size() - 1)
-        pos = d.size() - 1;
     while ((int)d.size() != pedantSize * 2)
     {
         int i = 0;
         int j = 0;
-        while (i < (int)d.size() && j <= pos)
+        while (i < (int)d.size() && j != pos)
         {
             if (d[i].size() == 2 && d[i][1] != -1)
                 j++;
+            if (j == pos)
+                break;
             i++;
         }
-        while (j > jacobStahlNumbers[JSNpos - 1] && i > 0)
+        while (j > jacobStahlNumbers[JSNpos - 1] && i > 1)
         {
             if (d[i].size() == 2 && d[i][1] != -1)
             {
                 int index = binarySearchD(d, i, d[i][1]);
                 std::deque<int> tmp;
                 tmp.push_back(d[i][1]);
+                tmp.push_back(-1);
+                d[i][1] = -1;
                 d.insert(d.begin() + index, tmp);
-                if (index < i)
-                    d[i + 1][1] = -1;
-                else
-                    d[i][1] = -1;
                 j--;
             }
-            while (i > - 1 && d[i].size() != 2)
-                i--;
+            i--;
         }
         JSNpos++;
-        if (pos == pedantSize - 1)
-            break;
-        if (jacobStahlNumbers[JSNpos] > pedantSize)
+        if (jacobStahlNumbers[JSNpos] > pedantSize - 1)
             pos = pedantSize - 1;
         else
             pos = jacobStahlNumbers[JSNpos];
@@ -408,14 +386,14 @@ void dequeOperations(std::deque<std::deque<int> > &d, std::string *input, size_t
     fillDeque(d, input, size);
     printDequeBefore(d);
     int odd = d.size() % 2;
-    std::deque<int> oddD;
-    if (odd)
-    {
-        oddD.push_back(d[d.size() - 1][0]);
-        d.pop_back();
-    }
     if (!isSortedDeque(d))
     {
+        std::deque<int> oddD;
+        if (odd)
+        {
+            oddD.push_back(d[d.size() - 1][0]);
+            d.pop_back();
+        }
         makePairsDeque(d, d.size());
         sortPairsDeque(d, d.size());
         mergeSortDeque(d, d.size());
@@ -432,14 +410,15 @@ void vectorOperations(std::vector<std::vector<int> > &v, std::string *input, siz
     fillVector(v, input, size);
     printVectorBefore(v);
     int odd = v.size() % 2;
-    std::vector<int> oddV;
-    if (odd)
-    {
-        oddV.push_back(v[v.size() - 1][0]);
-        v.pop_back();
-    }
     if (!isSortedVector(v))
     {
+        std::vector<int> oddV;
+        if (odd)
+        {
+            oddV.push_back(v[v.size() - 1][0]);
+            oddV.push_back(-1);
+            v.pop_back();
+        }
         makePairsVector(v, v.size());
         sortPairsVector(v, v.size());
         mergeSortVector(v, v.size());
