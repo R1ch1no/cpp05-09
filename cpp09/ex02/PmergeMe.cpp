@@ -6,7 +6,7 @@
 /*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 19:18:43 by rkurnava          #+#    #+#             */
-/*   Updated: 2023/12/05 18:44:33 by rkurnava         ###   ########.fr       */
+/*   Updated: 2023/12/15 17:58:39 by rkurnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,23 +55,10 @@ void printDequeBefore(std::deque<std::deque<int> > d)
 
 void fillVector(std::vector<std::vector<int> > &v, std::string *input, size_t size)
 {
-    for (size_t i = 0; i + 1 < size; i += 2)
+    for (size_t i = 0; i < size; i++)
     {
         std::vector<int> tmp;
         std::istringstream num(input[i]);
-        int number;
-        num >> number;
-        tmp.push_back(number);
-        std::istringstream num2(input[i + 1]);
-        int number2;
-        num2 >> number2;
-        tmp.push_back(number2);
-        v.push_back(tmp);
-    }
-    if (size % 2)
-    {
-        std::vector<int> tmp;
-        std::istringstream num(input[size - 1]);
         int number;
         num >> number;
         tmp.push_back(number);
@@ -81,28 +68,59 @@ void fillVector(std::vector<std::vector<int> > &v, std::string *input, size_t si
 
 void fillDeque(std::deque<std::deque<int> > &d, std::string *input, size_t size)
 {
-    for (size_t i = 0; i + 1 < size; i += 2)
+    for (size_t i = 0; i < size; i++)
     {
         std::deque<int> tmp;
         std::istringstream num(input[i]);
         int number;
         num >> number;
         tmp.push_back(number);
-        std::istringstream num2(input[i + 1]);
-        int number2;
-        num2 >> number2;
-        tmp.push_back(number2);
         d.push_back(tmp);
+    }
+}
+
+//////////////////////////////////////////////////////////////////
+
+/// Make pairs functions
+
+void makePairsVector(std::vector<std::vector<int> > &v, size_t size)
+{
+    std::vector<std::vector<int> > tmpV;
+    for (size_t i = 0; i + 1 < size; i += 2)
+    {
+        std::vector<int> tmp;
+        tmp.push_back(v[i][0]);
+        tmp.push_back(v[i + 1][0]);
+        tmpV.push_back(tmp);
+    }
+    if (size % 2)
+    {
+        std::vector<int> tmp;
+        tmp.push_back(v[size - 1][0]);
+        tmpV.push_back(tmp);
+    }
+    v.clear();
+    v = tmpV;
+}
+
+void makePairsDeque(std::deque<std::deque<int> > &d, size_t size)
+{
+    std::deque<std::deque<int> > tmpD;
+    for (size_t i = 0; i + 1 < size; i += 2)
+    {
+        std::deque<int> tmp;
+        tmp.push_back(d[i][0]);
+        tmp.push_back(d[i + 1][0]);
+        tmpD.push_back(tmp);
     }
     if (size % 2)
     {
         std::deque<int> tmp;
-        std::istringstream num(input[size - 1]);
-        int number;
-        num >> number;
-        tmp.push_back(number);
-        d.push_back(tmp);
+        tmp.push_back(d[size - 1][0]);
+        tmpD.push_back(tmp);
     }
+    d.clear();
+    d = tmpD;
 }
 
 //////////////////////////////////////////////////////////////////
@@ -125,7 +143,7 @@ int isDequeChainSorted(std::deque<std::deque<int> > d, size_t size)
 {
     if (size % 2)
         size--;
-    for (size_t i = 0; i + 1 <= size; i++)
+    for (size_t i = 0; i + 1 < size; i++)
     {
         if (d[i][0] > d[i + 1][0])
             return (0);
@@ -138,32 +156,20 @@ int isDequeChainSorted(std::deque<std::deque<int> > d, size_t size)
 
 int isSortedVector(std::vector<std::vector<int> > v)
 {
-    for (size_t i = 0; i < v.size(); i++)
+    for (size_t i = 0; i + 1 < v.size(); i++)
     {
-        for (size_t j = 0; j + 1 < v[i].size(); j++)
-        {
-            if (v[i][j] > v[i][j + 1])
-                return (0);
-        }
-        if (i + 1 < v.size())
-            if (v[i][v[i].size() - 1] > v[i + 1][0])
-                return (0);
+        if (v[i][0] > v[i + 1][0])
+            return (0);
     }
     return (1);
 }
 
 int isSortedDeque(std::deque<std::deque<int> > d)
 {
-    for (size_t i = 0; i < d.size(); i++)
+    for (size_t i = 0; i + 1 < d.size(); i++)
     {
-        for (size_t j = 0; j + 1 < d[i].size(); j++)
-        {
-            if (d[i][j] > d[i][j + 1])
-                return (0);
-        }
-        if (i + 1 < d.size())
-            if (d[i][d[i].size() - 1] > d[i + 1][0])
-                return (0);
+        if (d[i][0] > d[i + 1][0])
+            return (0);
     }
     return (1);
 }
@@ -193,12 +199,13 @@ void sortPairsDeque(std::deque<std::deque<int> > &d, size_t size)
         return;
     if (d[size - 1].size() == 1)
         (sortPairsDeque(d, --size));
-    if (d[size - 1].size() == 2)
+    if (d[size - 1][0] < d[size - 1][1])
     {
-        if (d[size - 1][0] < d[size - 1][1])
-            std::swap(d[size - 1][0], d[size - 1][1]);
-        (sortPairsDeque(d, --size));
+        int tmp = d[size - 1][0];
+        d[size - 1][0] = d[size - 1][1];
+        d[size - 1][1] = tmp;
     }
+    sortPairsDeque(d, --size);
 }
 
 //////////////////////////////////////////////////////////////////
@@ -207,11 +214,6 @@ void sortPairsDeque(std::deque<std::deque<int> > &d, size_t size)
 
 void mergeSortVector(std::vector<std::vector<int> > &v, size_t size)
 {
-    if (size % 2)
-    {
-        size--;
-        mergeSortVector(v, size);
-    }
     if (isVectorChainSorted(v, v.size()))
         return;
     for (size_t i = 0; i + 1 < size; i++)
@@ -226,83 +228,227 @@ void mergeSortVector(std::vector<std::vector<int> > &v, size_t size)
 
 void mergeSortDeque(std::deque<std::deque<int> > &d, size_t size)
 {
-    if (size % 2)
-    {
-        size--;
-        mergeSortDeque(d, size);
-    }
     if (isDequeChainSorted(d, d.size()))
         return;
-    for (size_t i = 0; i + 1 <= size; i++)
+    for (size_t i = 0; i + 1 < size; i++)
     {
         if (d[i][0] > d[i + 1][0])
+        {
             std::swap(d[i], d[i + 1]);
+            mergeSortDeque(d, size);
+        }
     }
-    mergeSortDeque(d, size);
+}
+
+//////////////////////////////////////////////////////////////////
+
+/// Binary search functions
+
+int binarySearchV(std::vector<std::vector<int> > v, int high, int key)
+{
+    int l = 0;
+    int h = high;
+    while (l <= h)
+    {
+        int mid = l + (h - l) / 2;
+        if (mid == 0)
+        {
+            if (v[mid][0] < key)
+                return (0);
+        }
+        else if (v[mid][0] > key && v[mid - 1][0] < key)
+            return mid;
+        if (v[mid][0] < key)
+            l = mid + 1;
+        else
+            h = mid - 1;
+    }
+    return l;
+}
+
+int binarySearchD(std::deque<std::deque<int> > d, int high, int key)
+{
+    int l = 0;
+    int h = high;
+    while (l <= h)
+    {
+        int mid = l + (h - l) / 2;
+        if (mid == 0)
+        {
+            if (d[mid][0] < key)
+                return (0);
+        }
+        else if (d[mid][0] > key && d[mid - 1][0] < key)
+            return mid;
+        if (d[mid][0] < key)
+            l = mid + 1;
+        else
+            h = mid - 1;
+    }
+    return l;
 }
 
 //////////////////////////////////////////////////////////////////
 
 /// Binary Tree functions
-void binaryTreeV(std::vector<std::vector<int> > &v)
+
+void binaryTreeV(std::vector<std::vector<int> > &v, int pos, int pedantSize, int odd, std::vector<int> oddV)
 {
-    if (v.size() == 1)
-        return;
-    std::vector<std::vector<int> > tmp;
-    for (size_t j = 0; j + 1 < v.size(); j += 2)
+    int jacobStahlNumbers[] = {0, 2, 4, 10, 20, 42, 84, 170, 340, 682, 1364, 2730, 5460, 10922, 21844, 43690, 87380, 174762, 349524};
+    std::vector<int> tmp;
+    tmp.push_back(v[0][1]);
+    tmp.push_back(-1);
+    v.insert(v.begin(), tmp);
+    v[1][1] = -1;
+    int JSNpos = 1;
+    pos = jacobStahlNumbers[JSNpos];
+    if (pos >= (int)v.size() - 1)
+        pos = v.size() - 1;
+    while ((int)v.size() != pedantSize * 2)
     {
-        std::vector<int> tmp2;
-        if (v[j][0] > v[j + 1][0])
+        int i = 0;
+        int j = 0;
+        while (i < (int)v.size() && j <= pos)
         {
-            tmp2.push_back(v[j][0]);
-            tmp2.push_back(v[j + 1][0]);
+            if (v[i].size() == 2 && v[i][1] != -1)
+                j++;
+            i++;
         }
+        while (j > jacobStahlNumbers[JSNpos - 1] && i > 0)
+        {
+            if (v[i].size() == 2 && v[i][1] != -1)
+            {
+                int index = binarySearchV(v, i, v[i][1]);
+                std::vector<int> tmp;
+                tmp.push_back(v[i][1]);
+                v.insert(v.begin() + index, tmp);
+                if (index < i)
+                    v[i + 1][1] = -1;
+                else
+                    v[i][1] = -1;
+                j--;
+            }
+            while (i > - 1 && v[i].size() != 2)
+                i--;
+        }
+        JSNpos++;
+        if (pos == pedantSize - 1)
+            break;
+        if (jacobStahlNumbers[JSNpos] > pedantSize)
+            pos = pedantSize - 1;
         else
-        {
-            tmp2.push_back(v[j + 1][0]);
-            tmp2.push_back(v[j][0]);
-        }
-        tmp.push_back(tmp2);
+            pos = jacobStahlNumbers[JSNpos];
     }
-    binaryTreeV(tmp);
+    if (odd)
+    {
+        int index = binarySearchV(v, v.size() - 1, oddV[0]);
+        v.insert(v.begin() + index, oddV);
+    }
+}
+
+void binaryTreeD(std::deque<std::deque<int> > &d, int pos, int pedantSize, int odd, std::deque<int> oddD)
+{
+    int jacobStahlNumbers[] = {0, 2, 4, 10, 20, 42, 84, 170, 340, 682, 1364, 2730, 5460, 10922, 21844, 43690, 87380, 174762, 349524};
+    std::deque<int> tmp;
+    tmp.push_back(d[0][1]);
+    tmp.push_back(-1);
+    d.insert(d.begin(), tmp);
+    d[1][1] = -1;
+    int JSNpos = 1;
+    pos = jacobStahlNumbers[JSNpos];
+    if (pos >= (int)d.size() - 1)
+        pos = d.size() - 1;
+    while ((int)d.size() != pedantSize * 2)
+    {
+        int i = 0;
+        int j = 0;
+        while (i < (int)d.size() && j <= pos)
+        {
+            if (d[i].size() == 2 && d[i][1] != -1)
+                j++;
+            i++;
+        }
+        while (j > jacobStahlNumbers[JSNpos - 1] && i > 0)
+        {
+            if (d[i].size() == 2 && d[i][1] != -1)
+            {
+                int index = binarySearchD(d, i, d[i][1]);
+                std::deque<int> tmp;
+                tmp.push_back(d[i][1]);
+                d.insert(d.begin() + index, tmp);
+                if (index < i)
+                    d[i + 1][1] = -1;
+                else
+                    d[i][1] = -1;
+                j--;
+            }
+            while (i > - 1 && d[i].size() != 2)
+                i--;
+        }
+        JSNpos++;
+        if (pos == pedantSize - 1)
+            break;
+        if (jacobStahlNumbers[JSNpos] > pedantSize)
+            pos = pedantSize - 1;
+        else
+            pos = jacobStahlNumbers[JSNpos];
+    }
+    if (odd)
+    {
+        int index = binarySearchD(d, d.size() - 1, oddD[0]);
+        d.insert(d.begin() + index, oddD);
+    }
 }
 
 //////////////////////////////////////////////////////////////////
 
 /// Program logic
-void vectorOperations(std::vector<std::vector<int> > &v, std::string *input, size_t size)
-{
-    fillVector(v, input, size);
-    printVectorBefore(v);
-    if (!isSortedVector(v))
-    {
-        sortPairsVector(v, v.size());
-        std::cout << "Sorted pairs : " << std::endl;
-        printVectorBefore(v);
-        mergeSortVector(v, v.size());
-        std::cout << "Main chain sorted : " << std::endl;
-        printVectorBefore(v);
-        std::cout << std::endl;
-        if (!isSortedVector(v))
-        {
-            if (v.size() % 2 == 0)
-                binaryTreeV(v);
-        }
-    }
-    printVectorAfter(v);
-}
-
 void dequeOperations(std::deque<std::deque<int> > &d, std::string *input, size_t size)
 {
     fillDeque(d, input, size);
     printDequeBefore(d);
+    int odd = d.size() % 2;
+    std::deque<int> oddD;
+    if (odd)
+    {
+        oddD.push_back(d[d.size() - 1][0]);
+        d.pop_back();
+    }
     if (!isSortedDeque(d))
     {
+        makePairsDeque(d, d.size());
         sortPairsDeque(d, d.size());
         mergeSortDeque(d, d.size());
-        /*         if (!isSortedDeque(d))
-                    binaryInsertionSortD(d, d.size(), 0, d.size() / 2); */
+        if (odd)
+            binaryTreeD(d, 0, d.size(), 1, oddD);
+        else
+            binaryTreeD(d, 0, d.size(), 0, oddD);
     }
     printDequeAfter(d);
 }
+
+void vectorOperations(std::vector<std::vector<int> > &v, std::string *input, size_t size)
+{
+    fillVector(v, input, size);
+    printVectorBefore(v);
+    int odd = v.size() % 2;
+    std::vector<int> oddV;
+    if (odd)
+    {
+        oddV.push_back(v[v.size() - 1][0]);
+        v.pop_back();
+    }
+    if (!isSortedVector(v))
+    {
+        makePairsVector(v, v.size());
+        sortPairsVector(v, v.size());
+        mergeSortVector(v, v.size());
+        if (odd)
+            binaryTreeV(v, 0, v.size(), 1, oddV);
+        else
+            binaryTreeV(v, 0, v.size(), 0, oddV);
+    }
+    printVectorAfter(v);
+}
+
 //////////////////////////////////////////////////////////////////

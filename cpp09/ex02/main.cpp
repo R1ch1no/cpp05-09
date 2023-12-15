@@ -6,7 +6,7 @@
 /*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 19:18:38 by rkurnava          #+#    #+#             */
-/*   Updated: 2023/12/05 13:33:22 by rkurnava         ###   ########.fr       */
+/*   Updated: 2023/12/15 17:19:36 by rkurnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int main(int argc, char **argv)
     std::vector<std::vector<int> > v;
     std::deque<std::deque<int> > d;
     vectorOperations(v, input, argc - 1);
-    //dequeOperations(d, input, argc - 1);
+    dequeOperations(d, input, argc - 1);
     delete[] input;
     return (0);
 }
