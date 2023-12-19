@@ -6,7 +6,7 @@
 /*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 19:18:43 by rkurnava          #+#    #+#             */
-/*   Updated: 2023/12/19 10:03:24 by rkurnava         ###   ########.fr       */
+/*   Updated: 2023/12/19 12:29:09 by rkurnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,8 +129,6 @@ void makePairsDeque(std::deque<std::deque<int> > &d, size_t size)
 
 int isVectorChainSorted(std::vector<std::vector<int> > v, size_t size)
 {
-    if (size % 2)
-        size--;
     for (size_t i = 0; i + 1 < size; i++)
     {
         if (v[i][0] > v[i + 1][0])
@@ -141,8 +139,6 @@ int isVectorChainSorted(std::vector<std::vector<int> > v, size_t size)
 
 int isDequeChainSorted(std::deque<std::deque<int> > d, size_t size)
 {
-    if (size % 2)
-        size--;
     for (size_t i = 0; i + 1 < size; i++)
     {
         if (d[i][0] > d[i + 1][0])
@@ -182,14 +178,8 @@ void sortPairsVector(std::vector<std::vector<int> > &v, size_t size)
 {
     if (size == 0)
         return;
-    if (v[size - 1].size() == 1)
-        (sortPairsVector(v, --size));
     if (v[size - 1][0] < v[size - 1][1])
-    {
-        int tmp = v[size - 1][0];
-        v[size - 1][0] = v[size - 1][1];
-        v[size - 1][1] = tmp;
-    }
+        std::swap(v[size - 1][0], v[size - 1][1]);
     sortPairsVector(v, --size);
 }
 
@@ -197,14 +187,8 @@ void sortPairsDeque(std::deque<std::deque<int> > &d, size_t size)
 {
     if (size == 0)
         return;
-    if (d[size - 1].size() == 1)
-        (sortPairsDeque(d, --size));
     if (d[size - 1][0] < d[size - 1][1])
-    {
-        int tmp = d[size - 1][0];
-        d[size - 1][0] = d[size - 1][1];
-        d[size - 1][1] = tmp;
-    }
+        std::swap(d[size - 1][0], d[size - 1][1]);
     sortPairsDeque(d, --size);
 }
 
@@ -214,30 +198,26 @@ void sortPairsDeque(std::deque<std::deque<int> > &d, size_t size)
 
 void sortChainVector(std::vector<std::vector<int> > &v, size_t size)
 {
-    if (isVectorChainSorted(v, v.size()))
-        return;
     for (size_t i = 0; i + 1 < size; i++)
     {
         if (v[i][0] > v[i + 1][0])
-        {
             std::swap(v[i], v[i + 1]);
-            sortChainVector(v, size);
-        }
     }
+    if (isVectorChainSorted(v, v.size()))
+        return;
+    sortChainVector(v, size);
 }
 
 void sortChainDeque(std::deque<std::deque<int> > &d, size_t size)
 {
-    if (isDequeChainSorted(d, d.size()))
-        return;
     for (size_t i = 0; i + 1 < size; i++)
     {
         if (d[i][0] > d[i + 1][0])
-        {
             std::swap(d[i], d[i + 1]);
-            sortChainDeque(d, size);
-        }
     }
+    if (isDequeChainSorted(d, d.size()))
+        return;
+    sortChainDeque(d, size);
 }
 
 //////////////////////////////////////////////////////////////////
@@ -284,10 +264,9 @@ int binarySearchD(std::deque<std::deque<int> > d, int high, int key)
 
 void sortingAlgorithmVector(std::vector<std::vector<int> > &v, int pos, int pedantSize, int odd, std::vector<int> oddV)
 {
-    int jacobStahlNumbers[] = {0, 2, 4, 10, 20, 42, 84, 170, 340, 682, 1364, 2730, 5460, 10922, 21844, 43690, 87380, 174762, 349524};
+    int jacobStahlNumbers[19] = {0, 2, 4, 10, 20, 42, 84, 170, 340, 682, 1364, 2730, 5460, 10922, 21844, 43690, 87380, 174762, 349524};
     std::vector<int> tmp;
     tmp.push_back(v[0][1]);
-    tmp.push_back(-1);
     v.insert(v.begin(), tmp);
     v[1][1] = -1;
     int JSNpos = 1;
@@ -299,20 +278,19 @@ void sortingAlgorithmVector(std::vector<std::vector<int> > &v, int pos, int peda
         int j = 0;
         while (i < (int)v.size() && j != pos)
         {
-            if (v[i].size() == 2 && v[i][1] != -1)
+            if (v[i].size() == 2)
                 j++;
             if (j == pos)
                 break;
             i++;
         }
-        while (j > jacobStahlNumbers[JSNpos - 1] && i > 1)
+        while (j > jacobStahlNumbers[JSNpos - 1] && i > 0)
         {
-            if (v[i].size() == 2 && v[i][1] != -1)
+            if (i < (int)v.size() && v[i].size() == 2 && v[i][1] != -1)
             {
                 int index = binarySearchV(v, i, v[i][1]);
                 std::vector<int> tmp;
                 tmp.push_back(v[i][1]);
-                tmp.push_back(-1);
                 v[i][1] = -1;
                 v.insert(v.begin() + index, tmp);
                 j--;
@@ -337,10 +315,9 @@ void sortingAlgorithmVector(std::vector<std::vector<int> > &v, int pos, int peda
 
 void sortingAlgorithmDeque(std::deque<std::deque<int> > &d, int pos, int pedantSize, int odd, std::deque<int> oddD)
 {
-    int jacobStahlNumbers[] = {0, 2, 4, 10, 20, 42, 84, 170, 340, 682, 1364, 2730, 5460, 10922, 21844, 43690, 87380, 174762, 349524};
+    int jacobStahlNumbers[19] = {0, 2, 4, 10, 20, 42, 84, 170, 340, 682, 1364, 2730, 5460, 10922, 21844, 43690, 87380, 174762, 349524};
     std::deque<int> tmp;
     tmp.push_back(d[0][1]);
-    tmp.push_back(-1);
     d.insert(d.begin(), tmp);
     d[1][1] = -1;
     int JSNpos = 1;
@@ -352,20 +329,19 @@ void sortingAlgorithmDeque(std::deque<std::deque<int> > &d, int pos, int pedantS
         int j = 0;
         while (i < (int)d.size() && j != pos)
         {
-            if (d[i].size() == 2 && d[i][1] != -1)
+            if (d[i].size() == 2)
                 j++;
             if (j == pos)
                 break;
             i++;
         }
-        while (j > jacobStahlNumbers[JSNpos - 1] && i > 1)
+        while (j > jacobStahlNumbers[JSNpos - 1] && i > 0)
         {
-            if (d[i].size() == 2 && d[i][1] != -1)
+            if (i < (int)d.size() && d[i].size() == 2 && d[i][1] != -1)
             {
                 int index = binarySearchD(d, i, d[i][1]);
                 std::deque<int> tmp;
                 tmp.push_back(d[i][1]);
-                tmp.push_back(-1);
                 d[i][1] = -1;
                 d.insert(d.begin() + index, tmp);
                 j--;
@@ -402,7 +378,6 @@ void vectorOperations(std::vector<std::vector<int> > &v, std::string *input, siz
         if (odd)
         {
             oddV.push_back(v[v.size() - 1][0]);
-            oddV.push_back(-1);
             v.pop_back();
         }
         makePairsVector(v, v.size());
@@ -439,6 +414,5 @@ void dequeOperations(std::deque<std::deque<int> > &d, std::string *input, size_t
     }
     printDequeAfter(d);
 }
-
 
 //////////////////////////////////////////////////////////////////
