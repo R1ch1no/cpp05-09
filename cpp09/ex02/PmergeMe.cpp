@@ -6,7 +6,7 @@
 /*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 19:18:43 by rkurnava          #+#    #+#             */
-/*   Updated: 2023/12/19 08:19:21 by rkurnava         ###   ########.fr       */
+/*   Updated: 2023/12/19 08:24:38 by rkurnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -291,7 +291,7 @@ void binaryTreeV(std::vector<std::vector<int> > &v, int pos, int pedantSize, int
     v.insert(v.begin(), tmp);
     v[1][1] = -1;
     int JSNpos = 1;
-    int insertered = 0;
+    int inserted = 0;
     int finalSize = pedantSize * 2;
     while ((int)v.size() != finalSize)
     {
@@ -320,13 +320,13 @@ void binaryTreeV(std::vector<std::vector<int> > &v, int pos, int pedantSize, int
             i--;
         }
         JSNpos++;
-        if (odd && jacobStahlNumbers[JSNpos] > pedantSize - 1 && !insertered)
+        if (odd && jacobStahlNumbers[JSNpos] > pedantSize - 1 && !inserted)
         {
             int index = binarySearchV(v, v.size() - 1, oddV[0]);
             v.insert(v.begin() + index, oddV);
             finalSize++;
             pos = pedantSize - 1;
-            insertered = 1;
+            inserted = 1;
         }
         else if (jacobStahlNumbers[JSNpos] > pedantSize - 1)
             pos = pedantSize - 1;
@@ -344,7 +344,7 @@ void binaryTreeD(std::deque<std::deque<int> > &d, int pos, int pedantSize, int o
     d.insert(d.begin(), tmp);
     d[1][1] = -1;
     int JSNpos = 1;
-    int insertered = 0;
+    int inserted = 0;
     int finalSize = pedantSize * 2;
     while ((int)d.size() != finalSize)
     {
@@ -373,13 +373,13 @@ void binaryTreeD(std::deque<std::deque<int> > &d, int pos, int pedantSize, int o
             i--;
         }
         JSNpos++;
-        if (odd && jacobStahlNumbers[JSNpos] > pedantSize - 1 && !insertered)
+        if (odd && jacobStahlNumbers[JSNpos] > pedantSize - 1 && !inserted)
         {
             int index = binarySearchD(d, d.size() - 1, oddD[0]);
             d.insert(d.begin() + index, oddD);
             finalSize++;
             pos = pedantSize - 1;
-            insertered = 1;
+            inserted = 1;
         }
         else if (jacobStahlNumbers[JSNpos] > pedantSize - 1)
             pos = pedantSize - 1;
