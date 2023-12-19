@@ -6,7 +6,7 @@
 /*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 19:18:43 by rkurnava          #+#    #+#             */
-/*   Updated: 2023/12/19 17:41:23 by rkurnava         ###   ########.fr       */
+/*   Updated: 2023/12/19 18:53:12 by rkurnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,20 @@ void printVectorAfter(std::vector<int> v)
               << std::endl;
 }
 
+void printSorterVector(std::vector<std::vector<int> > v)
+{
+    for (size_t i = 0; i < v.size(); i++)
+    {
+        std::cout << v[i][0] << " ";
+        if (v[i].size() == 2)
+            std::cout << v[i][1] << " ";
+    }
+    std::cout << "\n"
+              << std::endl;
+}
+
 void printVectorBefore(std::vector<std::vector<int> > v)
 {
-    std::cout << "Vector size : " << v.size() << std::endl;
     std::cout << "Vector before sorting : ";
     for (size_t i = 0; i < v.size(); i++)
     {
@@ -46,9 +57,20 @@ void printDequeAfter(std::deque<int> d)
               << std::endl;
 }
 
+void printSorterDeque(std::deque<std::deque<int> > d)
+{
+    for (size_t i = 0; i < d.size(); i++)
+    {
+        std::cout << d[i][0] << " ";
+        if (d[i].size() == 2)
+            std::cout << d[i][1] << " ";
+    }
+    std::cout << "\n"
+              << std::endl;
+}
+
 void printDequeBefore(std::deque<std::deque<int> > d)
 {
-    std::cout << "Deque size : " << d.size() << std::endl;
     std::cout << "Deque before sorting : ";
     for (size_t i = 0; i < d.size(); i++)
     {
@@ -120,12 +142,34 @@ int isDequeChainSorted(std::deque<std::deque<int> > d, size_t size)
     }
     return (1);
 }
+
+int isMainChainSortedVector(std::vector<int> v)
+{
+    for (size_t i = 0; i + 1 < v.size(); i++)
+    {
+        if (v[i] > v[i + 1])
+            return (0);
+    }
+    return (1);
+}
+
+int isMainChainSortedDeque(std::deque<int> d)
+{
+    for (size_t i = 0; i + 1 < d.size(); i++)
+    {
+        if (d[i] > d[i + 1])
+            return (0);
+    }
+    return (1);
+}
 //////////////////////////////////////////////////////////////////
 
 /// Is whole vector/deque sorted check functions
 
 int isSortedVector(std::vector<std::vector<int> > v)
 {
+    if (v.size() == 1)
+        return (0);
     for (size_t i = 0; i + 1 < v.size(); i++)
     {
         if (v[i].size() == 2 && v[i][0] > v[i][1])
@@ -138,6 +182,8 @@ int isSortedVector(std::vector<std::vector<int> > v)
 
 int isSortedDeque(std::deque<std::deque<int> > d)
 {
+    if (d.size() == 1)
+        return (0);
     for (size_t i = 0; i + 1 < d.size(); i++)
     {
         if (d[i].size() == 2 && d[i][0] > d[i][1])
@@ -387,60 +433,62 @@ void sortingAlgorithmDeque(std::deque<int> &mainChain, std::deque<std::deque<int
 //////////////////////////////////////////////////////////////////
 
 /// Program logic
-void vectorOperations(std::vector<std::vector<int> > &v, std::string *input, size_t size)
+double vectorOperations(std::vector<std::vector<int> > &v, std::string *input, size_t size)
 {
+    std::cout << std::endl;
+    clock_t start = clock();
     fillVector(v, input, size);
     printVectorBefore(v);
     int odd = (int)v[v.size() - 1].size() % 2;
     std::vector<int> mainChainVector;
-    if (!isSortedVector(v))
+    std::vector<int> oddV;
+    if (odd)
     {
-        std::vector<int> oddV;
-        if (odd)
-        {
-            oddV.push_back(v[v.size() - 1][0]);
-            v.pop_back();
-        }
-        sortPairsVector(v, v.size());
-        sortChainVector(v);
-        for (size_t i = 0; i < v.size(); i++)
-            mainChainVector.push_back(v[i][0]);
-        if (odd)
-            sortingAlgorithmVector(mainChainVector, v, 0, mainChainVector.size(), 1, oddV);
-        else
-            sortingAlgorithmVector(mainChainVector, v, 0, mainChainVector.size(), 0, oddV);
+        oddV.push_back(v[v.size() - 1][0]);
+        v.pop_back();
     }
+    sortPairsVector(v, v.size());
+    sortChainVector(v);
+    for (size_t i = 0; i < v.size(); i++)
+        mainChainVector.push_back(v[i][0]);
+    if (odd)
+        sortingAlgorithmVector(mainChainVector, v, 0, mainChainVector.size(), 1, oddV);
+    else
+        sortingAlgorithmVector(mainChainVector, v, 0, mainChainVector.size(), 0, oddV);
+    clock_t end = clock();
     printVectorAfter(mainChainVector);
     v.clear();
     mainChainVector.clear();
+    return ((double)(end - start) / CLOCKS_PER_SEC);
 }
 
-void dequeOperations(std::deque<std::deque<int> > &d, std::string *input, size_t size)
+double dequeOperations(std::deque<std::deque<int> > &d, std::string *input, size_t size)
 {
+    std::cout << std::endl;
+    clock_t start = clock();
     fillDeque(d, input, size);
     printDequeBefore(d);
     int odd = (int)d[d.size() - 1].size() % 2;
     std::deque<int> mainChainDeque;
-    if (!isSortedDeque(d))
+    std::deque<int> oddD;
+    if (odd)
     {
-        std::deque<int> oddD;
-        if (odd)
-        {
-            oddD.push_back(d[d.size() - 1][0]);
-            d.pop_back();
-        }
-        sortPairsDeque(d, d.size());
-        sortChainDeque(d);
-        for (size_t i = 0; i < d.size(); i++)
-            mainChainDeque.push_back(d[i][0]);
-        if (odd)
-            sortingAlgorithmDeque(mainChainDeque, d, 0, mainChainDeque.size(), 1, oddD);
-        else
-            sortingAlgorithmDeque(mainChainDeque, d, 0, mainChainDeque.size(), 0, oddD);
+        oddD.push_back(d[d.size() - 1][0]);
+        d.pop_back();
     }
+    sortPairsDeque(d, d.size());
+    sortChainDeque(d);
+    for (size_t i = 0; i < d.size(); i++)
+        mainChainDeque.push_back(d[i][0]);
+    if (odd)
+        sortingAlgorithmDeque(mainChainDeque, d, 0, mainChainDeque.size(), 1, oddD);
+    else
+        sortingAlgorithmDeque(mainChainDeque, d, 0, mainChainDeque.size(), 0, oddD);
+    clock_t end = clock();
     printDequeAfter(mainChainDeque);
     d.clear();
     mainChainDeque.clear();
+    return ((double)(end - start) / CLOCKS_PER_SEC);
 }
 
 //////////////////////////////////////////////////////////////////
