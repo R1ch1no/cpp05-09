@@ -6,7 +6,7 @@
 /*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 19:18:43 by rkurnava          #+#    #+#             */
-/*   Updated: 2023/12/19 08:24:38 by rkurnava         ###   ########.fr       */
+/*   Updated: 2023/12/19 10:03:24 by rkurnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -212,7 +212,7 @@ void sortPairsDeque(std::deque<std::deque<int> > &d, size_t size)
 
 /// Merge sort functions
 
-void mergeSortVector(std::vector<std::vector<int> > &v, size_t size)
+void sortChainVector(std::vector<std::vector<int> > &v, size_t size)
 {
     if (isVectorChainSorted(v, v.size()))
         return;
@@ -221,12 +221,12 @@ void mergeSortVector(std::vector<std::vector<int> > &v, size_t size)
         if (v[i][0] > v[i + 1][0])
         {
             std::swap(v[i], v[i + 1]);
-            mergeSortVector(v, size);
+            sortChainVector(v, size);
         }
     }
 }
 
-void mergeSortDeque(std::deque<std::deque<int> > &d, size_t size)
+void sortChainDeque(std::deque<std::deque<int> > &d, size_t size)
 {
     if (isDequeChainSorted(d, d.size()))
         return;
@@ -235,7 +235,7 @@ void mergeSortDeque(std::deque<std::deque<int> > &d, size_t size)
         if (d[i][0] > d[i + 1][0])
         {
             std::swap(d[i], d[i + 1]);
-            mergeSortDeque(d, size);
+            sortChainDeque(d, size);
         }
     }
 }
@@ -282,7 +282,7 @@ int binarySearchD(std::deque<std::deque<int> > d, int high, int key)
 
 /// Binary Tree functions
 
-void binaryTreeV(std::vector<std::vector<int> > &v, int pos, int pedantSize, int odd, std::vector<int> oddV)
+void sortingAlgorithmVector(std::vector<std::vector<int> > &v, int pos, int pedantSize, int odd, std::vector<int> oddV)
 {
     int jacobStahlNumbers[] = {0, 2, 4, 10, 20, 42, 84, 170, 340, 682, 1364, 2730, 5460, 10922, 21844, 43690, 87380, 174762, 349524};
     std::vector<int> tmp;
@@ -335,7 +335,7 @@ void binaryTreeV(std::vector<std::vector<int> > &v, int pos, int pedantSize, int
     }
 }
 
-void binaryTreeD(std::deque<std::deque<int> > &d, int pos, int pedantSize, int odd, std::deque<int> oddD)
+void sortingAlgorithmDeque(std::deque<std::deque<int> > &d, int pos, int pedantSize, int odd, std::deque<int> oddD)
 {
     int jacobStahlNumbers[] = {0, 2, 4, 10, 20, 42, 84, 170, 340, 682, 1364, 2730, 5460, 10922, 21844, 43690, 87380, 174762, 349524};
     std::deque<int> tmp;
@@ -391,30 +391,6 @@ void binaryTreeD(std::deque<std::deque<int> > &d, int pos, int pedantSize, int o
 //////////////////////////////////////////////////////////////////
 
 /// Program logic
-void dequeOperations(std::deque<std::deque<int> > &d, std::string *input, size_t size)
-{
-    fillDeque(d, input, size);
-    printDequeBefore(d);
-    int odd = d.size() % 2;
-    if (!isSortedDeque(d))
-    {
-        std::deque<int> oddD;
-        if (odd)
-        {
-            oddD.push_back(d[d.size() - 1][0]);
-            d.pop_back();
-        }
-        makePairsDeque(d, d.size());
-        sortPairsDeque(d, d.size());
-        mergeSortDeque(d, d.size());
-        if (odd)
-            binaryTreeD(d, 0, d.size(), 1, oddD);
-        else
-            binaryTreeD(d, 0, d.size(), 0, oddD);
-    }
-    printDequeAfter(d);
-}
-
 void vectorOperations(std::vector<std::vector<int> > &v, std::string *input, size_t size)
 {
     fillVector(v, input, size);
@@ -431,13 +407,38 @@ void vectorOperations(std::vector<std::vector<int> > &v, std::string *input, siz
         }
         makePairsVector(v, v.size());
         sortPairsVector(v, v.size());
-        mergeSortVector(v, v.size());
+        sortChainVector(v, v.size());
         if (odd)
-            binaryTreeV(v, 0, v.size(), 1, oddV);
+            sortingAlgorithmVector(v, 0, v.size(), 1, oddV);
         else
-            binaryTreeV(v, 0, v.size(), 0, oddV);
+            sortingAlgorithmVector(v, 0, v.size(), 0, oddV);
     }
     printVectorAfter(v);
 }
+
+void dequeOperations(std::deque<std::deque<int> > &d, std::string *input, size_t size)
+{
+    fillDeque(d, input, size);
+    printDequeBefore(d);
+    int odd = d.size() % 2;
+    if (!isSortedDeque(d))
+    {
+        std::deque<int> oddD;
+        if (odd)
+        {
+            oddD.push_back(d[d.size() - 1][0]);
+            d.pop_back();
+        }
+        makePairsDeque(d, d.size());
+        sortPairsDeque(d, d.size());
+        sortChainDeque(d, d.size());
+        if (odd)
+            sortingAlgorithmDeque(d, 0, d.size(), 1, oddD);
+        else
+            sortingAlgorithmDeque(d, 0, d.size(), 0, oddD);
+    }
+    printDequeAfter(d);
+}
+
 
 //////////////////////////////////////////////////////////////////

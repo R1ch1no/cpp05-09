@@ -6,7 +6,7 @@
 /*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 19:18:45 by rkurnava          #+#    #+#             */
-/*   Updated: 2023/12/15 16:43:43 by rkurnava         ###   ########.fr       */
+/*   Updated: 2023/12/19 09:59:06 by rkurnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@ int isDequeChainSorted(std::deque<std::deque<int> > d, size_t size);
 int isSortedVector(std::vector<std::vector<int> > v);
 int isSortedDeque(std::deque<std::deque<int> > d);
 
-void mergeSortVector(std::vector<std::vector<int> > &v, size_t size);
-void mergeSortDeque(std::deque<std::deque<int> > &d, size_t size);
+void sortChainVector(std::vector<std::vector<int> > &v, size_t size);
+void sortChainDeque(std::deque<std::deque<int> > &d, size_t size);
 
 void sortPairsVector(std::vector<std::vector<int> > &v, size_t size);
 void sortPairsDeque(std::deque<std::deque<int> > &d, size_t size);
