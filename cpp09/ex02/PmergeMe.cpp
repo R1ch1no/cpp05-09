@@ -6,7 +6,7 @@
 /*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 19:18:43 by rkurnava          #+#    #+#             */
-/*   Updated: 2023/12/19 18:53:12 by rkurnava         ###   ########.fr       */
+/*   Updated: 2023/12/19 19:25:03 by rkurnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,18 +19,6 @@ void printVectorAfter(std::vector<int> v)
     std::cout << "Vector after sorting  : ";
     for (size_t i = 0; i < v.size(); i++)
         std::cout << v[i] << " ";
-    std::cout << "\n"
-              << std::endl;
-}
-
-void printSorterVector(std::vector<std::vector<int> > v)
-{
-    for (size_t i = 0; i < v.size(); i++)
-    {
-        std::cout << v[i][0] << " ";
-        if (v[i].size() == 2)
-            std::cout << v[i][1] << " ";
-    }
     std::cout << "\n"
               << std::endl;
 }
@@ -53,18 +41,6 @@ void printDequeAfter(std::deque<int> d)
     std::cout << "Deque after sorting  : ";
     for (size_t i = 0; i < d.size(); i++)
         std::cout << d[i] << " ";
-    std::cout << "\n"
-              << std::endl;
-}
-
-void printSorterDeque(std::deque<std::deque<int> > d)
-{
-    for (size_t i = 0; i < d.size(); i++)
-    {
-        std::cout << d[i][0] << " ";
-        if (d[i].size() == 2)
-            std::cout << d[i][1] << " ";
-    }
     std::cout << "\n"
               << std::endl;
 }
@@ -119,81 +95,6 @@ void fillDeque(std::deque<std::deque<int> > &d, std::string *input, size_t size)
         d.push_back(tmp);
     }
 }
-//////////////////////////////////////////////////////////////////
-
-/// Chain sorted check functions
-
-int isVectorChainSorted(std::vector<std::vector<int> > v, size_t size)
-{
-    for (size_t i = 0; i + 1 < size; i++)
-    {
-        if (v[i][0] > v[i + 1][0])
-            return (0);
-    }
-    return (1);
-}
-
-int isDequeChainSorted(std::deque<std::deque<int> > d, size_t size)
-{
-    for (size_t i = 0; i + 1 < size; i++)
-    {
-        if (d[i][0] > d[i + 1][0])
-            return (0);
-    }
-    return (1);
-}
-
-int isMainChainSortedVector(std::vector<int> v)
-{
-    for (size_t i = 0; i + 1 < v.size(); i++)
-    {
-        if (v[i] > v[i + 1])
-            return (0);
-    }
-    return (1);
-}
-
-int isMainChainSortedDeque(std::deque<int> d)
-{
-    for (size_t i = 0; i + 1 < d.size(); i++)
-    {
-        if (d[i] > d[i + 1])
-            return (0);
-    }
-    return (1);
-}
-//////////////////////////////////////////////////////////////////
-
-/// Is whole vector/deque sorted check functions
-
-int isSortedVector(std::vector<std::vector<int> > v)
-{
-    if (v.size() == 1)
-        return (0);
-    for (size_t i = 0; i + 1 < v.size(); i++)
-    {
-        if (v[i].size() == 2 && v[i][0] > v[i][1])
-            return (0);
-        if (v[i][0] > v[i + 1][0])
-            return (0);
-    }
-    return (1);
-}
-
-int isSortedDeque(std::deque<std::deque<int> > d)
-{
-    if (d.size() == 1)
-        return (0);
-    for (size_t i = 0; i + 1 < d.size(); i++)
-    {
-        if (d[i].size() == 2 && d[i][0] > d[i][1])
-            return (0);
-        if (d[i][0] > d[i + 1][0])
-            return (0);
-    }
-    return (1);
-}
-
 //////////////////////////////////////////////////////////////////
 
 /// Pairs sort functions

@@ -6,7 +6,7 @@
 /*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 19:18:38 by rkurnava          #+#    #+#             */
-/*   Updated: 2023/12/19 18:53:04 by rkurnava         ###   ########.fr       */
+/*   Updated: 2023/12/19 19:25:45 by rkurnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int main(int argc, char **argv)
 {
     double vectorTime;
     double dequeTime;
-    if (argc <= 2)
+    if (argc <= 2 || argc > 10001)
     {
         std::cerr << "Invalid amount of arguments" << std::endl;
         return (1);
