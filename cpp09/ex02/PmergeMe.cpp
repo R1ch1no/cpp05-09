@@ -6,7 +6,7 @@
 /*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 19:18:43 by rkurnava          #+#    #+#             */
-/*   Updated: 2023/12/19 12:29:09 by rkurnava         ###   ########.fr       */
+/*   Updated: 2023/12/19 12:55:54 by rkurnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,20 +176,20 @@ int isSortedDeque(std::deque<std::deque<int> > d)
 
 void sortPairsVector(std::vector<std::vector<int> > &v, size_t size)
 {
-    if (size == 0)
-        return;
-    if (v[size - 1][0] < v[size - 1][1])
-        std::swap(v[size - 1][0], v[size - 1][1]);
-    sortPairsVector(v, --size);
+    for (size_t i = 0; i + 1 < size; i++)
+    {
+        if (v[i][0] < v[i][1])
+            std::swap(v[i][0], v[i][1]);
+    }
 }
 
 void sortPairsDeque(std::deque<std::deque<int> > &d, size_t size)
 {
-    if (size == 0)
-        return;
-    if (d[size - 1][0] < d[size - 1][1])
-        std::swap(d[size - 1][0], d[size - 1][1]);
-    sortPairsDeque(d, --size);
+    for (size_t i = 0; i + 1 < size; i++)
+    {
+        if (d[i][0] < d[i][1])
+            std::swap(d[i][0], d[i][1]);
+    }
 }
 
 //////////////////////////////////////////////////////////////////
@@ -272,8 +272,21 @@ void sortingAlgorithmVector(std::vector<std::vector<int> > &v, int pos, int peda
     int JSNpos = 1;
     int inserted = 0;
     int finalSize = pedantSize * 2;
+    if (odd)
+        finalSize++;
     while ((int)v.size() != finalSize)
     {
+        if (odd && jacobStahlNumbers[JSNpos] > pedantSize - 1 && !inserted)
+        {
+            int index = binarySearchV(v, v.size() - 1, oddV[0]);
+            v.insert(v.begin() + index, oddV);
+            pos = pedantSize - 1;
+            inserted = 1;
+        }
+        else if (jacobStahlNumbers[JSNpos] > pedantSize - 1)
+            pos = pedantSize - 1;
+        else
+            pos = jacobStahlNumbers[JSNpos];
         int i = 0;
         int j = 0;
         while (i < (int)v.size() && j != pos)
@@ -298,18 +311,6 @@ void sortingAlgorithmVector(std::vector<std::vector<int> > &v, int pos, int peda
             i--;
         }
         JSNpos++;
-        if (odd && jacobStahlNumbers[JSNpos] > pedantSize - 1 && !inserted)
-        {
-            int index = binarySearchV(v, v.size() - 1, oddV[0]);
-            v.insert(v.begin() + index, oddV);
-            finalSize++;
-            pos = pedantSize - 1;
-            inserted = 1;
-        }
-        else if (jacobStahlNumbers[JSNpos] > pedantSize - 1)
-            pos = pedantSize - 1;
-        else
-            pos = jacobStahlNumbers[JSNpos];
     }
 }
 
@@ -323,8 +324,21 @@ void sortingAlgorithmDeque(std::deque<std::deque<int> > &d, int pos, int pedantS
     int JSNpos = 1;
     int inserted = 0;
     int finalSize = pedantSize * 2;
+    if (odd)
+        finalSize++;
     while ((int)d.size() != finalSize)
     {
+        if (odd && jacobStahlNumbers[JSNpos] > pedantSize - 1 && !inserted)
+        {
+            int index = binarySearchD(d, d.size() - 1, oddD[0]);
+            d.insert(d.begin() + index, oddD);
+            pos = pedantSize - 1;
+            inserted = 1;
+        }
+        else if (jacobStahlNumbers[JSNpos] > pedantSize - 1)
+            pos = pedantSize - 1;
+        else
+            pos = jacobStahlNumbers[JSNpos];
         int i = 0;
         int j = 0;
         while (i < (int)d.size() && j != pos)
@@ -349,18 +363,6 @@ void sortingAlgorithmDeque(std::deque<std::deque<int> > &d, int pos, int pedantS
             i--;
         }
         JSNpos++;
-        if (odd && jacobStahlNumbers[JSNpos] > pedantSize - 1 && !inserted)
-        {
-            int index = binarySearchD(d, d.size() - 1, oddD[0]);
-            d.insert(d.begin() + index, oddD);
-            finalSize++;
-            pos = pedantSize - 1;
-            inserted = 1;
-        }
-        else if (jacobStahlNumbers[JSNpos] > pedantSize - 1)
-            pos = pedantSize - 1;
-        else
-            pos = jacobStahlNumbers[JSNpos];
     }
 }
 
@@ -389,6 +391,7 @@ void vectorOperations(std::vector<std::vector<int> > &v, std::string *input, siz
             sortingAlgorithmVector(v, 0, v.size(), 0, oddV);
     }
     printVectorAfter(v);
+    v.clear();
 }
 
 void dequeOperations(std::deque<std::deque<int> > &d, std::string *input, size_t size)
@@ -413,6 +416,7 @@ void dequeOperations(std::deque<std::deque<int> > &d, std::string *input, size_t
             sortingAlgorithmDeque(d, 0, d.size(), 0, oddD);
     }
     printDequeAfter(d);
+    d.clear();
 }
 
 //////////////////////////////////////////////////////////////////
