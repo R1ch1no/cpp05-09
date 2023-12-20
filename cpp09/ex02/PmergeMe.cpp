@@ -6,7 +6,7 @@
 /*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 19:18:43 by rkurnava          #+#    #+#             */
-/*   Updated: 2023/12/19 19:27:14 by rkurnava         ###   ########.fr       */
+/*   Updated: 2023/12/20 09:02:11 by rkurnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void printVectorBefore(std::vector<std::vector<int> > v)
 
 void printDequeAfter(std::deque<int> d)
 {
-    std::cout << "Deque after sorting  : ";
+    std::cout << "Deque after sorting   : ";
     for (size_t i = 0; i < d.size(); i++)
         std::cout << d[i] << " ";
     std::cout << "\n"
@@ -46,7 +46,7 @@ void printDequeAfter(std::deque<int> d)
 
 void printDequeBefore(std::deque<std::deque<int> > d)
 {
-    std::cout << "Deque before sorting : ";
+    std::cout << "Deque before sorting  : ";
     for (size_t i = 0; i < d.size(); i++)
     {
         std::cout << d[i][0] << " ";
@@ -66,14 +66,23 @@ void fillVector(std::vector<std::vector<int> > &v, std::string *input, size_t si
     for (size_t i = 0; i + 1 < size - size % 2; i += 2)
     {
         std::vector<int> tmp;
-        tmp.push_back(atoi(input[i].c_str()));
-        tmp.push_back(atoi(input[i + 1].c_str()));
+        std::istringstream num1(input[i]);
+        std::istringstream num2(input[i + 1]);
+        int number1;
+        int number2;
+        num1 >> number1;
+        num2 >> number2;
+        tmp.push_back(number1);
+        tmp.push_back(number2);
         v.push_back(tmp);
     }
     if (size % 2)
     {
         std::vector<int> tmp;
-        tmp.push_back(atoi(input[size - 1].c_str()));
+        std::istringstream num(input[size - 1]);
+        int number;
+        num >> number;
+        tmp.push_back(number);
         v.push_back(tmp);
     }
 }
@@ -83,14 +92,23 @@ void fillDeque(std::deque<std::deque<int> > &d, std::string *input, size_t size)
     for (size_t i = 0; i + 1 < size - size % 2; i += 2)
     {
         std::deque<int> tmp;
-        tmp.push_back(atoi(input[i].c_str()));
-        tmp.push_back(atoi(input[i + 1].c_str()));
+        std::istringstream num1(input[i]);
+        std::istringstream num2(input[i + 1]);
+        int number1;
+        int number2;
+        num1 >> number1;
+        num2 >> number2;
+        tmp.push_back(number1);
+        tmp.push_back(number2);
         d.push_back(tmp);
     }
     if (size % 2)
     {
         std::deque<int> tmp;
-        tmp.push_back(atoi(input[size - 1].c_str()));
+        std::istringstream num(input[size - 1]);
+        int number;
+        num >> number;
+        tmp.push_back(number);
         d.push_back(tmp);
     }
 }

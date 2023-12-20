@@ -6,7 +6,7 @@
 /*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 19:18:38 by rkurnava          #+#    #+#             */
-/*   Updated: 2023/12/19 19:25:45 by rkurnava         ###   ########.fr       */
+/*   Updated: 2023/12/20 09:02:15 by rkurnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,13 @@ int main(int argc, char **argv)
     }
     for (size_t i = 0; i + 1 < (size_t)argc - 1; i++)
     {
-        if (input[i] > input[i + 1])
+        std::stringstream ss(input[i]);
+        std::stringstream ss1(input[i + 1]);
+        int num1;
+        int num2;
+        ss >> num1;
+        ss1 >> num2;
+        if (num1 > num2)
         {
             std::vector<std::vector<int> > v;
             std::deque<std::deque<int> > d;
