@@ -6,7 +6,7 @@
 /*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 19:18:34 by rkurnava          #+#    #+#             */
-/*   Updated: 2023/11/28 16:14:56 by rkurnava         ###   ########.fr       */
+/*   Updated: 2023/12/20 11:20:14 by rkurnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ int RPN::checkInput(std::string &input)
     size_t nums = 0;
     size_t ops = 0;
     // check for invalid characters
+    if (input.empty())
+        return (std::cerr << "Error : Empty input" << std::endl, 1);
     if (std::string::npos != input.find_first_not_of(" 0123456789+-*/"))
         return (std::cerr << "Error : Invalid characters" << std::endl, 1);
     // check if input contains only one char and if it is a digit

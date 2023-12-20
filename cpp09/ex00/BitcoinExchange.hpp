@@ -6,7 +6,7 @@
 /*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 19:18:06 by rkurnava          #+#    #+#             */
-/*   Updated: 2023/11/22 15:05:17 by rkurnava         ###   ########.fr       */
+/*   Updated: 2023/12/20 11:39:13 by rkurnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,27 +35,9 @@ public:
     void printRate(std::ifstream &inputFile);
     int checkLine(std::string line);
     int checkDate(int, int, int, float, std::string);
-    class invalidFileException : public std::exception
-    {
-        virtual const char* what() const throw()
-        {
-            return ("Invalid file");
-        }
-    };
-    class invalidExtensionException : public std::exception
-    {
-        virtual const char* what() const throw()
-        {
-            return ("Invalid file extension");
-        }
-    };
-    class dataBankMissingException : public std::exception
-    {
-        virtual const char* what() const throw()
-        {
-            return ("Data bank missing");
-        }
-    };
+    class invalidFileException : public std::exception{const char *what() const throw();};
+    class noAccess : public std::exception{const char *what() const throw();};
+    class dataBankMissingException : public std::exception { const char *what() const throw(); };
 };
 
 #endif

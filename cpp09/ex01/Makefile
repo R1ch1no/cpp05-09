@@ -6,7 +6,7 @@
 #    By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/15 19:18:31 by rkurnava          #+#    #+#              #
-#    Updated: 2023/11/28 15:38:35 by rkurnava         ###   ########.fr        #
+#    Updated: 2023/12/20 09:46:12 by rkurnava         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@
 
  CXX = c++
 
- CXXFLAGS = -Wall -Wextra -Werror -std=c++98 -g -pedantic
+ CXXFLAGS = -Wall -Wextra -Werror -std=c++98 -pedantic
 
  SRCS = main.cpp RPN.cpp
 
